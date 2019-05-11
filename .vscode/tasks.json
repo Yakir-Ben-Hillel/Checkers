@@ -1,0 +1,26 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "gcc.exe build active file",
+            "problemMatcher":"$gcc",
+            "command": "C:\\MinGW\\bin\\gcc.exe",
+            "args": [
+                "-g",
+                "${file}",
+                "C:\\Users\\yakir\\Documents\\GitHub\\Assignments\\FourthAssignment\\Q3\\TreeFunctions.c",
+                "C:\\Users\\yakir\\Documents\\GitHub\\Assignments\\FourthAssignment\\Q3\\ListFunctions.c",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "C:\\MinGW\\bin"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+    ],
+    "version": "2.0.0"
+}
