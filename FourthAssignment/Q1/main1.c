@@ -10,7 +10,7 @@ int main()
 	printf("Please enter the number of items: ");
 
 	scanf("%d", &size);
-
+	printf("changing what maayan just wrote\n");
 	for (i = 0; i < size; i++)
 
 		scanf("%d", &arr[i]);
