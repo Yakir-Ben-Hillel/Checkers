@@ -7,7 +7,7 @@
             "args": [
                 "-Wall",
                 "-g",
-                "${fileDirname}\\FourthAssignment\\Q1\\Functions1.c",
+                "${fileDirname}\\main.c",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
