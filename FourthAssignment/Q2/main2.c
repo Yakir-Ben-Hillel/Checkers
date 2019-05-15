@@ -1,7 +1,7 @@
 //David Yakir Ben Hillel 11/5/19.
 #include "Header2.h"
 
-void main()
+int main()
 
 {
     char str[SIZE];
@@ -23,5 +23,9 @@ void main()
     }
 
     else
+    {
         printf("The input expression is not valid\n");
+    }
+    
+        system("pause\n");
 }

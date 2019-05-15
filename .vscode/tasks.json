@@ -3,13 +3,11 @@
         {
             "type": "shell",
             "label": "gcc.exe build active file",
-            "problemMatcher":"$gcc",
             "command": "C:\\MinGW\\bin\\gcc.exe",
             "args": [
+                "-Wall",
                 "-g",
-                "${file}",
-                "C:\\Users\\yakir\\Documents\\GitHub\\Assignments\\FourthAssignment\\Q3\\TreeFunctions.c",
-                "C:\\Users\\yakir\\Documents\\GitHub\\Assignments\\FourthAssignment\\Q3\\ListFunctions.c",
+                "${fileDirname}\\*.c",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],

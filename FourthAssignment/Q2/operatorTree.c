@@ -2,7 +2,6 @@
 /*Static Declartions*/
 static Tree buildAux(char *str, int size);
 static void freeTreeAux(TreeNode *leaf);
-static void PrintInOrderAux(TreeNode *leaf);
 double calcAux(TreeNode *leaf);
 /*Static Declartions*/
 
