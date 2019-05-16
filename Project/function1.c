@@ -5,7 +5,7 @@ SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos *src);
 void checkAllocation(void *address);
 static BOOL isBottom(player p);
 checkersPos *soldierStatus(Board board, checkersPos *src, player pl);
-
+// blah blah
 checkersPos *soldierStatus(Board board, checkersPos *src, player pl) //Added option for player(inserting B OR T).
 {                                                                    //Rows can get input from 'A' to 'H', columns can get input from '1' to '8'.
     checkersPos *options[2];
