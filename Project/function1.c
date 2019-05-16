@@ -27,6 +27,7 @@ checkersPos *soldierStatus(Board board, checkersPos *src, player pl) //Added opt
                 options[1] = solider;
             }
         }//Unfinished.
+        if((src->col>=3)&&(src->col<=6))
     }
 }
 void checkAllocation(void *address)
