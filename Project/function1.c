@@ -9,7 +9,7 @@ checkersPos *soldierStatus(Board board, checkersPos *src, player pl);
 checkersPos *soldierStatus(Board board, checkersPos *src, player pl) //Added option for player(inserting B OR T).
 {                                                                    //Rows can get input from 'A' to 'H', columns can get input from '1' to '8'.
     checkersPos *options[2];
-    options[0] = options[1] = NULL;
+    options[0] = options[1] = {0};
     if (pl == 'T')
     {//hello
         if ((src->col != '1') && (src->col != '8') && (src->row != 'H')) //might have steps from both sides.
@@ -88,10 +88,11 @@ SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos *src) //
     }
 }
 
-static BOOL isUP(player p)
+static BOOL isBottom(player p)
 {
     if (p == 'B')
         return TRUE;
+    else 
         return FALSE;
 }
 

@@ -7,7 +7,7 @@
             "args": [
                 "-Wall",
                 "-g",
-                "${fileDirname}\\*.c",
+                "${fileDirname}\\function1.c",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
