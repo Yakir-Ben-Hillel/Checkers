@@ -1,7 +1,5 @@
 #include "PrototypesProject.h"
-#define ALLOCATION_ERROR -1
 static BOOL isCellFree(Board board, checkersPos *soldier);
-SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos *src);
 void checkAllocation(void *address);
 static BOOL isBottom(player p);
 checkersPos *soldierStatus(Board board, checkersPos *src, player pl);
@@ -42,7 +40,7 @@ void checkAllocation(void *address)
     }
 }
 
-SingleSourceMovesTree FindSingleSourceMoves(Board board, checkersPos *src)
+SingleSourceMovesTree *FindSingleSourceMoves(Board board, checkersPos *src)
 {
     SingleSourceMovesTree *movesTree;
 
@@ -54,7 +52,7 @@ SingleSourceMovesTree FindSingleSourceMoves(Board board, checkersPos *src)
     {
         movesTree = NULL;
 
-        return *movesTree;
+        return movesTree;
     }
 }
 
