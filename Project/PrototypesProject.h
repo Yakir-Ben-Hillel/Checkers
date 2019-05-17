@@ -6,6 +6,8 @@
 
 #define TRUE 1
 #define FALSE 0
+#define ALLOCATION_ERROR -1
+
 typedef int BOOL;
 /*Structs*/
 typedef struct _checkersPos
@@ -30,4 +32,6 @@ typedef struct _SingleSourceMovesTree
 
 /*Declartions*/
 SingleSourceMovesTree FindSingleSourceMoves(Board board, checkersPos *src);
+void checkAllocation(void *address);
+
 /*Declartions*/
