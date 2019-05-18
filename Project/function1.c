@@ -189,7 +189,7 @@ static BOOL isCellFree(Board board, checkersPos *soldier)
 
 static void testsForTLeft(Board board, checkersPos *src, checkersPos *options, checkersPos *captures)
 {
-    checkersPos *soldier - NULL;
+    checkersPos *soldier = NULL;
     soldier = (checkersPos *)malloc(sizeof(checkersPos));
     checkAllocation(soldier);
     if ((src->col != '1') && (src->col != '8') && (src->row != 'H')) //might have steps from both sides.
