@@ -33,7 +33,7 @@ SingleSourceMovesTree *FindSingleSourceMoves(Board board, checkersPos *src)
     SingleSourceMovesTree *movesTree = NULL;
     player currentPlayer;
 
-    if (!isCellFree(board, src)) // In case the cell is taken
+    if (isCellFree(board, src)) // In case the cell is taken
     {
         initializePlayer(board, src, &currentPlayer);
         *movesTree = FindSingleSourceMovesAux(board, src, currentPlayer);
@@ -82,7 +82,7 @@ SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos *src, pl
 
         // Compliment case - Connecting sub - Trees to the base Tree
         baseTree.source->next_move[0] = treeOne.source;
-        baseTree.source->next_move[1] = treeOne.source;
+        baseTree.source->next_move[1] = treeTwo.source;
         return(baseTree);
     }
 }

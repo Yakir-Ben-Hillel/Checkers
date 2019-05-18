@@ -30,7 +30,7 @@ typedef struct _SingleSourceMovesTree
 } SingleSourceMovesTree;
 
 /*Declartions*/
-SingleSourceMovesTree FindSingleSourceMoves(Board board, checkersPos *src);
+SingleSourceMovesTree *FindSingleSourceMoves(Board board, checkersPos *src);
 void checkAllocation(void *address);
 
 /*Declartions*/

@@ -1,9 +1,10 @@
 #include "PrototypesProject.h"
 
-static void PrintOpener();
+void PrintOpener();
 void fillStartingBoard(Board *board);
-static void printBoard(Board board);
-static void printTreeInOrder  (SingleSourceMovesTree* movesTree1);
+void printBoard(Board board);
+void printTreeInOrder(SingleSourceMovesTree* movesTree1);
+void printTreeInOrderAux(SingleSourceMovesTreeNode* source);
  
 int main()
 {
@@ -29,9 +30,9 @@ int main()
 
 checkersPos src1, src2; 
 // test1-top-middle board
-src1.row=1;src1.row=2;
+src1.row='1';src1.col='2';
 // test2- bottom-middleside
-src2.row=1;src2.row=2;
+src2.row='1';src2.col='2';
 
 printf ("src1 coordinate: %c X %c \n , src2 coordinate: %c X %c\n", src1.row, src1.col, src2.row, src2.col);
 
@@ -42,7 +43,7 @@ SingleSourceMovesTree *movesTree3= FindSingleSourceMoves(testBoard, &src2);
 SingleSourceMovesTree *movesTree4= FindSingleSourceMoves(testBoard, &src2);
 
 void printTreeInOrder  (SingleSourceMovesTree* movesTree);
-static void printTreeInOrderAux  (SingleSourceMovesTreeNode* source );
+void printTreeInOrderAux(SingleSourceMovesTreeNode* source );
 
 printTreeInOrder (movesTree1);
 printTreeInOrder (movesTree2);
@@ -52,7 +53,7 @@ printTreeInOrder (movesTree4);
     return 0;
 }
 
-static void printBoard(Board board) // debugging purpose only 
+ void printBoard(Board board) // debugging purpose only 
 {
     int i, j;
     for (i=0;i<8;i++)
@@ -65,14 +66,14 @@ static void printBoard(Board board) // debugging purpose only
     }
 
 }
-void printTreeInOrder  (SingleSourceMovesTree* movesTree)
+void printTreeInOrder(SingleSourceMovesTree* movesTree)
 {
     if (movesTree==NULL)
         return;
     else
         printTreeInOrderAux(movesTree->source);
 }
-static void printTreeInOrderAux  (SingleSourceMovesTreeNode* source )
+void printTreeInOrderAux(SingleSourceMovesTreeNode* source)
 {
     if (source==NULL)
         return;
@@ -117,7 +118,7 @@ void fillStartingBoard(Board *board)
         }
     }
 }
-static void PrintOpener()
+ void PrintOpener()
 {
     printf(":'######::'##::::'##:'########::'######::'##:::'##:'########:'########:::'######::\n");
     printf("'##... ##: ##:::: ##: ##.....::'##... ##: ##::'##:: ##.....:: ##.... ##:'##... ##:\n");
