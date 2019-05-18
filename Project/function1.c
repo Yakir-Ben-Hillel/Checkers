@@ -3,20 +3,20 @@
 void checkAllocation(void *address);
 
 // function1 Prototypes
-static void soldierStatus(Board board, checkersPos *src, player pl, checkersPos *options, checkersPos *captures);
+static void soldierStatus(Board board, checkersPos *src, player pl, checkersPos **options, checkersPos *captures);
 // return in the options array the nearest possible coordinates for moving and in accordance the place of an eaten soldier if exists
-SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos *src, player pl); // Auxiliary function for building the tree moves
+SingleSourceMovesTree *FindSingleSourceMovesAux(Board board, checkersPos *src, player pl); // Auxiliary function for building the tree moves
 
 static BOOL isCellFree(Board board, checkersPos *soldier);
 static BOOL isBottom(player p);
 
 // Tests- Static Prototypes
-static void testsForT(Board board, checkersPos *src, checkersPos *options, checkersPos *captures);
-static void testsForB(Board board, checkersPos *src, checkersPos *options, checkersPos *captures);
-static void testsForTLeft(Board board, checkersPos *src, checkersPos *options, checkersPos *captures);
-static void testsForTRight(Board board, checkersPos *src, checkersPos *options, checkersPos *captures);
-static void testsForBLeft(Board board, checkersPos *src, checkersPos *options, checkersPos *captures);
-static void testsForBRight(Board board, checkersPos *src, checkersPos *options, checkersPos *captures);
+static void testsForT(Board board, checkersPos *src, checkersPos **options, checkersPos *captures);
+static void testsForB(Board board, checkersPos *src, checkersPos **options, checkersPos *captures);
+static void testsForTLeft(Board board, checkersPos *src, checkersPos **options, checkersPos *captures);
+static void testsForTRight(Board board, checkersPos *src, checkersPos **options, checkersPos *captures);
+static void testsForBLeft(Board board, checkersPos *src, checkersPos **options, checkersPos *captures);
+static void testsForBRight(Board board, checkersPos *src, checkersPos **options, checkersPos *captures);
 
 static void initializePlayer(Board board, checkersPos *src, player *currentPlayer); // Initializing the player based on the given coordinate
 static void initializeBoardOfPlayer(Board board, Board *boardOfPlayer);             // Initializing the board of a given coordinate
@@ -25,20 +25,57 @@ static void handleBoardChange(Board board, checkersPos *src, player pl, checkers
 static BOOL isThereACapture(checkersPos *options, checkersPos *captures, int *ind); // Determines whether there's an option of move with a
                                                                                     // capture between the given captures, if exist
                                                                                     // Return true in case there's a match between a capture and
-static void fillOptions(checkersPos *soldier, checkersPos *options);
+static void fillOptions(checkersPos *soldier, checkersPos **options);
 static void fillCaptures(checkersPos *soldier, checkersPos *captures);
 
 SingleSourceMovesTree *FindSingleSourceMoves(Board board, checkersPos *src)
 {
-    SingleSourceMovesTree *movesTree = NULL;
+    SingleSourceMovesTree *movesTree = {NULL}, *leftTree = {NULL}, *rightTree = {NULL};
     player currentPlayer;
+    checkersPos **options;
+    checkersPos *captures, *solider;
+    solider = (checkersPos *)malloc(sizeof(checkersPos));
+    captures = (checkersPos *)calloc(2, sizeof(checkersPos));
+    options = (checkersPos **)calloc(2, sizeof(checkersPos *));
+    options[0] = (checkersPos *)malloc(sizeof(checkersPos));
+    options[1] = (checkersPos *)malloc(sizeof(checkersPos));
+    options[0]->col = options[0]->row = '0';
+    options[1]->col = options[1]->row = '0';
+    checkAllocation(options);
 
-    if (isCellFree(board, src)) // In case the cell is taken
+    checkAllocation(captures);
+
+    if (!isCellFree(board, src)) // In case the cell is taken
     {
         initializePlayer(board, src, &currentPlayer);
-        *movesTree = FindSingleSourceMovesAux(board, src, currentPlayer);
-    }
+        movesTree = (SingleSourceMovesTree *)malloc(sizeof(SingleSourceMovesTree));
+        movesTree->source = (SingleSourceMovesTreeNode *)malloc(sizeof(SingleSourceMovesTreeNode));
+        soldierStatus(board, src, currentPlayer, options, captures);
+        *solider = *src;
+        movesTree->source->pos = src;
+        movesTree->source->next_move[0]->pos = options[0];
+        movesTree->source->next_move[1]->pos = options[1];
 
+        solider->row = solider->row + 1;
+
+        if ((options[0]->col != '0') && (options[0]->row != '0'))
+        {
+            solider->col = solider->col - 1;
+            leftTree = FindSingleSourceMovesAux(board, solider, currentPlayer);
+            movesTree->source->next_move[0] = leftTree->source;
+        }
+        if ((options[1]->col != '0') && (options[1]->row != '0'))
+        {
+            solider->col = solider->col + 1;
+            rightTree = FindSingleSourceMovesAux(board, solider, currentPlayer);
+            movesTree->source->next_move[1] = rightTree->source;
+        }
+    }
+    free(options[0]);
+    free(options[1]);
+    free(options);
+    free(captures);
+    free(solider);
     return (movesTree); // Returns the tree moves or a NULL in case the cell is free
 }
 
@@ -47,43 +84,65 @@ static void initializePlayer(Board board, checkersPos *src, player *currentPlaye
     *(currentPlayer) = board[src->row - 'A'][src->col - '0' - 1]; // Initializing the player found in the given coordinate
 }
 
-SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos *src, player pl)
+SingleSourceMovesTree *FindSingleSourceMovesAux(Board board, checkersPos *src, player pl)
 {
     // Initialized due to security reasons
-    SingleSourceMovesTree treeOne = {NULL}, treeTwo = {NULL}, baseTree = {NULL};
-    checkersPos *options = NULL, *captures = NULL;
+    SingleSourceMovesTree *treeOne = {NULL}, *treeTwo = {NULL}, *baseTree = {NULL};
+    checkersPos **options = NULL, *captures = NULL;
 
     // Allocating a node
-    baseTree.source = (SingleSourceMovesTreeNode *)malloc(sizeof(SingleSourceMovesTreeNode));
-    checkAllocation(baseTree.source); // Checking whether the memory allocation succeeded or not
-                                      // To update the pointer to soldier
-    if (baseTree.source == NULL)
+    baseTree = (SingleSourceMovesTree *)malloc(sizeof(SingleSourceMovesTree));
+    checkAllocation(baseTree);
+    baseTree->source = (SingleSourceMovesTreeNode *)malloc(sizeof(SingleSourceMovesTreeNode));
+    checkAllocation(baseTree->source); // Checking whether the memory allocation succeeded or not
+                                       // To update the pointer to soldier
+    if (baseTree->source == NULL)
     {
         return baseTree;
     }
     else
     { // Allocating 2 arrays for the near moves / captures
-        options = (checkersPos *)calloc(2, sizeof(checkersPos));
+        options = (checkersPos **)calloc(2, sizeof(checkersPos *));
+        options[0] = (checkersPos *)malloc(sizeof(checkersPos));
+        options[1] = (checkersPos *)malloc(sizeof(checkersPos));
+        options[0]->col = options[0]->row = '0';
+        options[1]->col = options[1]->row = '0';
         checkAllocation(options);
         captures = (checkersPos *)calloc(2, sizeof(checkersPos));
         checkAllocation(captures);
+        initializeBoardOfPlayer(board, &baseTree->source->board); // Initializing board of the current root
+        soldierStatus(board, src, pl, options, captures);         // Returns an array of 2 possible moves- index 0 to the left, index 1 to the right
+        handleBoardChange(board, src, pl, *options, captures);    // Handles change due to next move update in the the tree
+        baseTree->source->pos = src;
+        baseTree->source->next_move[0] = options[0];
+        baseTree->source->next_move[1] = options[1];
 
-        initializeBoardOfPlayer(board, &baseTree.source->board); // Initializing board of the current root
-        soldierStatus(board, src, pl, options, captures);        // Returns an array of 2 possible moves- index 0 to the left, index 1 to the right
-        handleBoardChange(board, src, pl, options, captures);   // Handles change due to next move update in the the tree
-        baseTree.source->pos = src;                              // Updating the position of the current node
+        if ((options[0]->col != '0') && (options[0]->row != '0'))
+            treeOne = FindSingleSourceMovesAux(board, options[0], pl);
+        if (treeOne != NULL)
+            baseTree->source->next_move[0] = treeOne->source;
+        else
+        {
+            baseTree->source->next_move[0] = NULL;
+        }
 
-        treeOne = FindSingleSourceMovesAux(board, &options[0], pl);
-        treeTwo = FindSingleSourceMovesAux(board, &options[1], pl);
+        if ((options[1]->col != '0') && (options[1]->row != '0'))
+            treeTwo = FindSingleSourceMovesAux(board, options[1], pl);
+        if (treeTwo != NULL)
+            baseTree->source->next_move[1] = treeTwo->source;
+        else
+        {
+            baseTree->source->next_move[1] = NULL;
+        }
 
+        // Compliment case - Connecting sub - Trees to the base Tree
         // Free the arrays allocated at start
+        free(options[0]);
+        free(options[1]);
         free(options);
         free(captures);
 
-        // Compliment case - Connecting sub - Trees to the base Tree
-        baseTree.source->next_move[0] = treeOne.source;
-        baseTree.source->next_move[1] = treeTwo.source;
-        return(baseTree);
+        return (baseTree);
     }
 }
 static void initializeBoardOfPlayer(Board board, Board *boardOfPlayer)
@@ -111,8 +170,11 @@ static void handleBoardChange(Board board, checkersPos *src, player pl, checkers
     }
     else // No capture - updating the table by moving the player and deleting its last location
     {
-        (board)[src->row - 'A'][src->col - '0' - 1] = ' '; // Removing the player from its last position
-        (board)[options[0].row - 'A'][options[0].col - '0' - 1] = pl;
+        if (&options[0] != NULL)
+        {
+            (board)[src->row - 'A'][src->col - '0' - 1] = ' '; // Removing the player from its last position
+            (board)[options[0].row - 'A'][options[0].col - '0' - 1] = pl;
+        }
     }
 }
 
@@ -140,12 +202,12 @@ static BOOL isThereACapture(checkersPos *options, checkersPos *captures, int *in
         return FALSE;
 }
 
-static void soldierStatus(Board board, checkersPos *src, player pl, checkersPos *options, checkersPos *captures) //Added option for player(inserting B OR T).
-{                                                                                                                //Rows can get input from 'A' to 'H', columns can get input from '1' to '8'.
-                                                                                                                 // you can't initialize a struct type with NULL, that's why
-                                                                                                                 // when you added the extra asterisk it worked- because the elements
-                                                                                                                 // in the array became pointers, and than its legit to initialize with NULL
-    if (pl == 'T')                                                                                               // In case 'T' is the player
+static void soldierStatus(Board board, checkersPos *src, player pl, checkersPos **options, checkersPos *captures) //Added option for player(inserting B OR T).
+{                                                                                                                 //Rows can get input from 'A' to 'H', columns can get input from '1' to '8'.
+                                                                                                                  // you can't initialize a struct type with NULL, that's why
+                                                                                                                  // when you added the extra asterisk it worked- because the elements
+                                                                                                                  // in the array became pointers, and than its legit to initialize with NULL
+    if (pl == 'T')                                                                                                // In case 'T' is the player
     {
         testsForT(board, src, options, captures);
     }
@@ -173,7 +235,7 @@ static BOOL isBottom(player p)
 
 static BOOL isCellFree(Board board, checkersPos *soldier)
 {                                                                           // converting the characters from an ASCII values to decimal numbers (indexes)
-    if (board[(int)soldier->row - 'A'][(int)soldier->col - '0' - 1] != ' ') // Space marks empty cell
+    if (board[(int)soldier->row - 'A'][(int)soldier->col - '0' - 1] == ' ') // Space marks empty cell
     {
         return TRUE;
     }
@@ -183,7 +245,7 @@ static BOOL isCellFree(Board board, checkersPos *soldier)
 
 //**********************************files separation - tests********************************************//
 
-static void testsForTLeft(Board board, checkersPos *src, checkersPos *options, checkersPos *captures)
+static void testsForTLeft(Board board, checkersPos *src, checkersPos **options, checkersPos *captures)
 {
     checkersPos *soldier;
     soldier = (checkersPos *)malloc(sizeof(checkersPos));
@@ -198,7 +260,7 @@ static void testsForTLeft(Board board, checkersPos *src, checkersPos *options, c
         }
         else if ((src->col >= '3') && (src->col <= '6') && (src->row <= 'F'))
         { //TEST 2: checks if the soldier can eat an enemy soldier.
-            soldier = src;
+            *soldier = *src;
             soldier->row = soldier->row + 1;
             soldier->col = soldier->col - 1;
             if ((!isCellFree(board, soldier) && (board[(int)(soldier->row) - 'A'][soldier->col - '0' - 1] == 'B')))
@@ -213,8 +275,9 @@ static void testsForTLeft(Board board, checkersPos *src, checkersPos *options, c
             }
         }
     }
+    free(soldier);
 }
-static void testsForTRight(Board board, checkersPos *src, checkersPos *options, checkersPos *captures)
+static void testsForTRight(Board board, checkersPos *src, checkersPos **options, checkersPos *captures)
 {
     checkersPos *soldier;
     soldier = (checkersPos *)malloc(sizeof(checkersPos));
@@ -230,7 +293,7 @@ static void testsForTRight(Board board, checkersPos *src, checkersPos *options, 
         }
         else if ((src->col >= '3') && (src->col <= '6') && (src->row <= 'F'))
         { //TEST 2: checks if the soldier can eat an enemy soldier.
-            soldier = src;
+            *soldier = *src;
             soldier->row = src->row + 1;
             soldier->col = src->col + 1;
             if ((!isCellFree(board, soldier) && (board[(int)soldier->row - 'A'][soldier->col - '0' - 1] == 'B')))
@@ -245,19 +308,20 @@ static void testsForTRight(Board board, checkersPos *src, checkersPos *options, 
             }
         }
     }
+    free(soldier);
 }
-static void testsForB(Board board, checkersPos *src, checkersPos *options, checkersPos *captures)
+static void testsForB(Board board, checkersPos *src, checkersPos **options, checkersPos *captures)
 {
     testsForBLeft(board, src, options, captures);
     testsForBRight(board, src, options, captures);
 }
-static void testsForT(Board board, checkersPos *src, checkersPos *options, checkersPos *captures)
+static void testsForT(Board board, checkersPos *src, checkersPos **options, checkersPos *captures)
 {
     testsForTLeft(board, src, options, captures);
     testsForTRight(board, src, options, captures);
 }
 
-static void testsForBLeft(Board board, checkersPos *src, checkersPos *options, checkersPos *captures)
+static void testsForBLeft(Board board, checkersPos *src, checkersPos **options, checkersPos *captures)
 {
     checkersPos *soldier;
     soldier = (checkersPos *)malloc(sizeof(checkersPos));
@@ -274,7 +338,7 @@ static void testsForBLeft(Board board, checkersPos *src, checkersPos *options, c
 
         else if ((src->col >= '3') && (src->col <= '6') && (src->row <= 'C'))
         { //TEST 2: checks if the soldier can eat an enemy soldier.
-            soldier = src;
+            *soldier = *src;
             soldier->row = soldier->row - 1;
             soldier->col = soldier->col - 1;
             if ((!isCellFree(board, soldier) && (board[(int)(soldier->row - 'A')][soldier->col - '0' - 1] == 'T')))
@@ -289,8 +353,9 @@ static void testsForBLeft(Board board, checkersPos *src, checkersPos *options, c
             }
         }
     }
+    free(soldier);
 }
-static void testsForBRight(Board board, checkersPos *src, checkersPos *options, checkersPos *captures)
+static void testsForBRight(Board board, checkersPos *src, checkersPos **options, checkersPos *captures)
 {
 
     checkersPos *soldier;
@@ -308,7 +373,7 @@ static void testsForBRight(Board board, checkersPos *src, checkersPos *options, 
 
         else if ((src->col >= '3') && (src->col <= '6') && (src->row <= 'C'))
         { //TEST 2: checks if the soldier can eat an enemy soldier.
-            soldier = src;
+            *soldier = *src;
             soldier->row = soldier->row - 1;
             soldier->col = soldier->col + 1;
             if ((!isCellFree(board, soldier) && (board[(int)soldier->row - 'A'][soldier->col - '0' - 1] == 'T')))
@@ -323,19 +388,20 @@ static void testsForBRight(Board board, checkersPos *src, checkersPos *options, 
             }
         }
     }
+    free(soldier);
 }
 
-static void fillOptions(checkersPos *soldier, checkersPos *options)
-{                                                       // Remember to initialize options array and captures array with '0' in each cell of the arrays
-    if (options[0].col == '0' && options[0].row == '0') // first cell is empty
+static void fillOptions(checkersPos *soldier, checkersPos **options)
+{                                                         // Remember to initialize options array and captures array with '0' in each cell of the arrays
+    if (options[0]->col == '0' && options[0]->row == '0') // first cell is empty
     {
-        options[0].col = soldier->col;
-        options[0].row = soldier->row;
+        options[0]->col = soldier->col;
+        options[0]->row = soldier->row;
     }
-    else if (options[1].col == '0' && options[1].row == '0') // second cell is empty
+    else if (options[1]->col == '0' && options[1]->row == '0') // second cell is empty
     {
-        options[1].col = soldier->col;
-        options[1].row = soldier->row;
+        options[1]->col = soldier->col;
+        options[1]->row = soldier->row;
     }
     return; // in case both cells are taken
 }

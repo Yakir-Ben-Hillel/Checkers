@@ -3,79 +3,90 @@
 void PrintOpener();
 void fillStartingBoard(Board *board);
 void printBoard(Board board);
-void printTreeInOrder(SingleSourceMovesTree* movesTree1);
-void printTreeInOrderAux(SingleSourceMovesTreeNode* source);
- 
+void printTreeInOrder(SingleSourceMovesTree *movesTree1);
+void printTreeInOrderAux(SingleSourceMovesTreeNode *source);
+
 int main()
 {
     // Opener- Checkers game
     //PrintOpener();
-    Board startingBoard;
+
     // Fill board
-    fillStartingBoard(&startingBoard);
+    Board startingBoard={
+    {' ', 'T', ' ', 'T', ' ', 'T', ' ', 'T'},
+    {'T', ' ', 'T', ' ', 'T', ' ', 'T', ' '},
+    {' ', 'T', ' ', 'T', ' ', 'T', ' ', 'T'},
+    {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+    {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+    {'B', ' ', 'B', ' ', 'B', ' ', 'B', ' '},
+    {' ', 'B', ' ', 'B', ' ', 'B', ' ', 'B'},
+    {'B', ' ', 'B', ' ', 'B', ' ', 'B', ' '},
+};
+    printf("Starting Board\n");
     printBoard(startingBoard);
 
     // for end cases
-    Board testBoard={
-                {' ',' ',' ',' ',' ',' ',' ',' '},
-                {' ',' ','T',' ',' ',' ',' ',' ',},
-                {' ',' ',' ',' ',' ',' ',' ',' '},
-                {' ',' ',' ',' ',' ',' ',' ',' '},
-                {' ',' ',' ',' ',' ',' ',' ',' '},
-                {'B',' ',' ',' ',' ',' ',' ',' '},
-                {' ',' ',' ',' ',' ',' ',' ',' '},
-                {' ',' ',' ',' ',' ',' ',' ',' '},
+    printf("\n\n\n\n\n");
+    printf("Test Board\n");
+    Board testBoard = {
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', 'T', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {'B', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
     };
     printBoard(testBoard);
 
-checkersPos src1, src2; 
-// test1-top-middle board
-src1.row='1';src1.col='2';
-// test2- bottom-middleside
-src2.row='1';src2.col='2';
+    checkersPos src1, src2;
+    // test1-top-middle board
+    src1.row = 'B';
+    src1.col = '3';
+    // test2- bottom-middleside
+    src2.row = '1';
+    src2.col = '2';
 
-printf ("src1 coordinate: %c X %c \n , src2 coordinate: %c X %c\n", src1.row, src1.col, src2.row, src2.col);
+    printf("src1 coordinate: %c X %c \n , src2 coordinate: %c X %c\n", src1.row, src1.col, src2.row, src2.col);
 
-SingleSourceMovesTree *movesTree1= FindSingleSourceMoves(startingBoard, &src1);
-SingleSourceMovesTree *movesTree2= FindSingleSourceMoves(startingBoard, &src2);
+    SingleSourceMovesTree *movesTree1 = FindSingleSourceMoves(startingBoard, &src1);
+    SingleSourceMovesTree *movesTree2 = FindSingleSourceMoves(testBoard, &src1);
 
-SingleSourceMovesTree *movesTree3= FindSingleSourceMoves(testBoard, &src2);
-SingleSourceMovesTree *movesTree4= FindSingleSourceMoves(testBoard, &src2);
+    void printTreeInOrder(SingleSourceMovesTree * movesTree);
+    void printTreeInOrderAux(SingleSourceMovesTreeNode * source);
 
-void printTreeInOrder  (SingleSourceMovesTree* movesTree);
-void printTreeInOrderAux(SingleSourceMovesTreeNode* source );
-
-printTreeInOrder (movesTree1);
-printTreeInOrder (movesTree2);
-printTreeInOrder (movesTree3);
-printTreeInOrder (movesTree4);
-
+    printTreeInOrder(movesTree1);
+    printTreeInOrder(movesTree2);
     return 0;
 }
 
- void printBoard(Board board) // debugging purpose only 
+void printBoard(Board board) // debugging purpose only
 {
     int i, j;
-    for (i=0;i<8;i++)
+    for (i = 0; i < 8; i++)
     {
-        for(j=0;j<8;j++)
+        printf("---------------------------------\n");
+        for (j = 0; j < 8; j++)
         {
-            printf(" %c ", board[i][j]);
+            if(j==0)
+            printf("| %c |",board[i][j]);
+            else
+            printf(" %c |", board[i][j]);
         }
         printf("\n");
     }
-
 }
-void printTreeInOrder(SingleSourceMovesTree* movesTree)
+void printTreeInOrder(SingleSourceMovesTree *movesTree)
 {
-    if (movesTree==NULL)
+    if (movesTree == NULL)
         return;
     else
         printTreeInOrderAux(movesTree->source);
 }
-void printTreeInOrderAux(SingleSourceMovesTreeNode* source)
+void printTreeInOrderAux(SingleSourceMovesTreeNode *source)
 {
-    if (source==NULL)
+    if (source == NULL)
         return;
     else
     {
@@ -85,40 +96,7 @@ void printTreeInOrderAux(SingleSourceMovesTreeNode* source)
     }
 }
 
-
-
-void fillStartingBoard(Board *board)
-{
-    int i = 0, j = 0;
-
-    // Filling top -A TO C
-    for (i = 0; i < 3; i++)
-    {
-        for (j = 0; j < 8; j++)
-        {
-            if( ((i % 2 == 0) && (j % 2 == 1)) || ((i % 2 == 0) && (j % 2 == 1)) )
-                (*board)[i][j] = 'T'; // Top player
-            else
-                (*board)[i][j] = ' ';
-        }
-    }
-    // Filling middle- 2 empty rows - D , E
-    for (i = 0; j < 2; j++)
-        for (j = 0; j < 8; j++)
-            (*board)[i][j] = ' ';
-    // Filling bottom - F TO H
-    for (i = 5; i < 8; i++)
-    {
-        for (j = 0; j < 8; j++)
-        {
-            if( ((i % 2 == 0) && (j % 2 == 1)) || ((i % 2 == 0) && (j % 2 == 1)) )
-                (*board)[i][j] = 'B'; // Bottom player
-            else
-                (*board)[i][j] = ' ';
-        }
-    }
-}
- void PrintOpener()
+void PrintOpener()
 {
     printf(":'######::'##::::'##:'########::'######::'##:::'##:'########:'########:::'######::\n");
     printf("'##... ##: ##:::: ##: ##.....::'##... ##: ##::'##:: ##.....:: ##.... ##:'##... ##:\n");
