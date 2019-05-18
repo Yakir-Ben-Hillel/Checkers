@@ -5,9 +5,10 @@
             "label": "gcc.exe build active file",
             "command": "C:\\MinGW\\bin\\gcc.exe",
             "args": [
-                //"-Wall",
+                "-Wall",
                 "-g",
                 "${fileDirname}\\function1.c",
+                "${fileDirname}\\main.c",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
