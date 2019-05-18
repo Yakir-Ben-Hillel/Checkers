@@ -20,8 +20,8 @@ typedef struct _SingleSourceMovesTreeNode
 {
     Board board;
     checkersPos *pos;
-    unsigned short total_captures_so_far;            //מספר הדילוגים עד כה
-    struct _SingleSourceMovesTreeNode *next_move[2]; //יעדי התנועה
+    unsigned short total_captures_so_far;            //Number of Captures
+    struct _SingleSourceMovesTreeNode *next_move[2]; // movement destinations
 } SingleSourceMovesTreeNode;
 
 typedef struct _SingleSourceMovesTree
