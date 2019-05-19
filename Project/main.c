@@ -100,7 +100,7 @@ void fillStartingBoard(Board *board)
         }
     }
     // Filling middle- 2 empty rows - D , E
-    for (i = 0; j < 2; j++)
+    for (i = 3; i < 5; i++)
         for (j = 0; j < 8; j++)
             (*board)[i][j] = ' ';
     // Filling bottom - F TO H
