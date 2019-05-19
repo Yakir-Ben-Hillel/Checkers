@@ -14,6 +14,7 @@ int main()
     // Fill board
     fillStartingBoard(&startingBoard);
     printBoard(startingBoard);
+    printf("\n\n\n");
 
     // for end cases
     Board testBoard={
@@ -27,6 +28,7 @@ int main()
                     {' ',' ',' ',' ',' ',' ',' ',' '},
                                                     };
     printBoard(testBoard);
+    printf("\n\n\n");
 
 checkersPos src1={0}, src2={0}; 
 // test1-top-middle board
@@ -125,4 +127,5 @@ static void PrintOpener()
     printf("$$::: $$: $$:::: $$: $$::::::: $$::: $$: $$:. $$:: $$::::::: $$::. $$::'$$::: $$:\n");
     printf(". $$$$$$:: $$:::: $$: $$$$$$$$:. $$$$$$:: $$::. $$: $$$$$$$$: $$:::. $$:. $$$$$$::\n");
     printf(":......:::..:::::..::........:::......:::..::::..::........::..:::::..:::......:::\n");
+    printf("\n\n\n");
 }
