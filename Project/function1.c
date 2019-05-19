@@ -3,7 +3,7 @@
 void checkAllocation(void *address);
 
 // function1 Prototypes
-static void soldierStatus(Board board, checkersPos *src, player pl, checkersPos **options, checkersPos *captures);
+static void soldierStatus(Board board, checkersPos *src, player pl, checkersPos *options, checkersPos *captures);
 // return in the options array the nearest possible coordinates for moving and in accordance the place of an eaten soldier if exists
 SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos *src, player pl, int countLevel); // Auxiliary function for building the tree moves
 
@@ -12,12 +12,12 @@ static BOOL isCellFree(Board board, checkersPos *soldier);
 //static BOOL isBottom(player p);
 
 // Tests- Static Prototypes
-static void testsForT(Board board, checkersPos *src, checkersPos **options, checkersPos *captures);
-static void testsForB(Board board, checkersPos *src, checkersPos **options, checkersPos *captures);
-static void testsForTLeft(Board board, checkersPos *src, checkersPos **options, checkersPos *captures);
-static void testsForTRight(Board board, checkersPos *src, checkersPos **options, checkersPos *captures);
-static void testsForBLeft(Board board, checkersPos *src, checkersPos **options, checkersPos *captures);
-static void testsForBRight(Board board, checkersPos *src, checkersPos **options, checkersPos *captures);
+static void testsForT(Board board, checkersPos *src, checkersPos *options, checkersPos *captures);
+static void testsForB(Board board, checkersPos *src, checkersPos *options, checkersPos *captures);
+static void testsForTLeft(Board board, checkersPos *src, checkersPos *options, checkersPos *captures);
+static void testsForTRight(Board board, checkersPos *src, checkersPos *options, checkersPos *captures);
+static void testsForBLeft(Board board, checkersPos *src, checkersPos *options, checkersPos *captures);
+static void testsForBRight(Board board, checkersPos *src, checkersPos *options, checkersPos *captures);
 
 static void initializePlayer(Board board, checkersPos *src, player *currentPlayer); // Initializing the player based on the given coordinate
 static void initializeBoardOfPlayer(Board board, Board *boardOfPlayer);             // Initializing the board of a given coordinate
@@ -26,7 +26,7 @@ static void handleBoardChange(Board board, checkersPos *src, player pl, checkers
 static BOOL isThereACapture(checkersPos *options, checkersPos *captures, int *ind); // Determines whether there's an option of move with a
                                                                                     // capture between the given captures, if exist
                                                                                     // Return true in case there's a match between a capture and
-static void fillOptions(checkersPos *soldier, checkersPos **options);
+static void fillOptions(checkersPos *soldier, checkersPos *options);
 static void fillCaptures(checkersPos *soldier, checkersPos *captures);
 static void allocateTreeNode(SingleSourceMovesTree* baseTree, checkersPos* src); // Allocates tree Node
 static void allocatePTreeNode(SingleSourceMovesTreeNode *PTreeNode, checkersPos *src);
@@ -233,7 +233,7 @@ static BOOL isCellFree(Board board, checkersPos *soldier)
 
 //**********************************files separation - tests********************************************//
 
-static void testsForTLeft(Board board, checkersPos *src, checkersPos **options, checkersPos *captures)
+static void testsForTLeft(Board board, checkersPos *src, checkersPos *options, checkersPos *captures)
 {
 	checkersPos *soldier=NULL;
 	soldier = (checkersPos *)malloc(sizeof(checkersPos));
@@ -264,7 +264,7 @@ static void testsForTLeft(Board board, checkersPos *src, checkersPos **options, 
 		}
 	}
 }
-static void testsForTRight(Board board, checkersPos *src, checkersPos **options, checkersPos *captures)
+static void testsForTRight(Board board, checkersPos *src, checkersPos *options, checkersPos *captures)
 {
 	checkersPos *soldier=NULL;
 	soldier = (checkersPos *)malloc(sizeof(checkersPos));
@@ -296,18 +296,18 @@ static void testsForTRight(Board board, checkersPos *src, checkersPos **options,
 		}
 	}
 }
-static void testsForB(Board board, checkersPos *src, checkersPos **options, checkersPos *captures)
+static void testsForB(Board board, checkersPos *src, checkersPos *options, checkersPos *captures)
 {
 	testsForBLeft(board, src, options, captures);
 	testsForBRight(board, src, options, captures);
 }
-static void testsForT(Board board, checkersPos *src, checkersPos **options, checkersPos *captures)
+static void testsForT(Board board, checkersPos *src, checkersPos *options, checkersPos *captures)
 {
 	testsForTLeft(board, src, options, captures);
 	testsForTRight(board, src, options, captures);
 }
 
-static void testsForBLeft(Board board, checkersPos *src, checkersPos **options, checkersPos *captures)
+static void testsForBLeft(Board board, checkersPos *src, checkersPos *options, checkersPos *captures)
 {
 	checkersPos *soldier = NULL;
 	soldier = (checkersPos *)malloc(sizeof(checkersPos));
@@ -340,7 +340,7 @@ static void testsForBLeft(Board board, checkersPos *src, checkersPos **options, 
 		}
 	}
 }
-static void testsForBRight(Board board, checkersPos *src, checkersPos **options, checkersPos *captures)
+static void testsForBRight(Board board, checkersPos *src, checkersPos *options, checkersPos *captures)
 {
 
 	checkersPos *soldier = NULL;
