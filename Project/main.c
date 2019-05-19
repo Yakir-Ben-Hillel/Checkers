@@ -2,15 +2,15 @@
 
 void PrintOpener();
 void fillStartingBoard(Board *board);
-void printBoard(Board board);
-void printTreeInOrder(SingleSourceMovesTree *movesTree1);
-void printTreeInOrderAux(SingleSourceMovesTreeNode *source);
-
+static void printBoard(Board board);
+void printTreeInOrder  (SingleSourceMovesTree* movesTree);
+static void printTreeInOrderAux(SingleSourceMovesTreeNode* source );
+ 
 int main()
 {
     // Opener- Checkers game
-    //PrintOpener();
-
+    PrintOpener();
+    Board startingBoard;
     // Fill board
     Board startingBoard={
     {' ', 'T', ' ', 'T', ' ', 'T', ' ', 'T'},
@@ -24,37 +24,39 @@ int main()
 };
     printf("Starting Board\n");
     printBoard(startingBoard);
+    printf("\n\n\n");
 
     // for end cases
-    printf("\n\n\n\n\n");
-    printf("Test Board\n");
-    Board testBoard = {
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', 'T', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {'B', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-    };
+    Board testBoard={
+                    {' ',' ',' ',' ',' ',' ',' ',' '},
+                    {' ',' ','T',' ',' ',' ',' ',' '},
+                    {' ',' ',' ',' ',' ',' ',' ',' '},
+                    {' ',' ',' ',' ',' ',' ',' ',' '},
+                    {' ',' ',' ',' ',' ',' ',' ',' '},
+                    {'B',' ',' ',' ',' ',' ',' ',' '},
+                    {' ',' ',' ',' ',' ',' ',' ',' '},
+                    {' ',' ',' ',' ',' ',' ',' ',' '},
+                                                    };
     printBoard(testBoard);
+    printf("\n\n\n");
 
-    checkersPos src1, src2;
-    // test1-top-middle board
-    src1.row = 'B';
-    src1.col = '3';
-    // test2- bottom-middleside
-    src2.row = '1';
-    src2.col = '2';
+checkersPos src1={0}, src2={0}; 
+// test1-top-middle board
+src1.row = 'F'; src1.col = '1';
+// test2- bottom-middleside
+src2.row = 'B'; src2.col = '3';
+
+printf ("src1 coordinate: %c X %c \n , src2 coordinate: %c X %c\n", src1.row, src1.col, src2.row, src2.col);
+
+SingleSourceMovesTree *movesTree1= FindSingleSourceMoves(startingBoard, &src1);
+SingleSourceMovesTree *movesTree2= FindSingleSourceMoves(startingBoard, &src2);
 
     printf("src1 coordinate: %c X %c \n , src2 coordinate: %c X %c\n", src1.row, src1.col, src2.row, src2.col);
 
-    SingleSourceMovesTree *movesTree1 = FindSingleSourceMoves(startingBoard, &src1);
-    SingleSourceMovesTree *movesTree2 = FindSingleSourceMoves(testBoard, &src1);
-
-    void printTreeInOrder(SingleSourceMovesTree * movesTree);
-    void printTreeInOrderAux(SingleSourceMovesTreeNode * source);
+printTreeInOrder (movesTree1);
+printTreeInOrder (movesTree2);
+printTreeInOrder (movesTree3);
+printTreeInOrder (movesTree4);
 
     printTreeInOrder(movesTree1);
     printTreeInOrder(movesTree2);
@@ -63,19 +65,16 @@ int main()
 
 void printBoard(Board board) // debugging purpose only
 {
-    int i, j;
-    for (i = 0; i < 8; i++)
-    {
-        printf("---------------------------------\n");
-        for (j = 0; j < 8; j++)
-        {
-            if(j==0)
-            printf("| %c |",board[i][j]);
-            else
-            printf(" %c |", board[i][j]);
-        }
-        printf("\n");
-    }
+	int i, j;
+	for (i = 0; i < 8; i++)
+	{
+		for (j = 0; j < 8; j++)
+		{
+			printf("%c||", board[i][j]);
+		}
+		printf("\n");
+	}
+
 }
 void printTreeInOrder(SingleSourceMovesTree *movesTree)
 {
@@ -96,14 +95,48 @@ void printTreeInOrderAux(SingleSourceMovesTreeNode *source)
     }
 }
 
-void PrintOpener()
+
+
+void fillStartingBoard(Board *board)
 {
-    printf(":'######::'##::::'##:'########::'######::'##:::'##:'########:'########:::'######::\n");
-    printf("'##... ##: ##:::: ##: ##.....::'##... ##: ##::'##:: ##.....:: ##.... ##:'##... ##:\n");
-    printf("##:::..:: ##:::: ##: ##::::::: ##:::..:: ##:'##::: ##::::::: ##:::: ##: ##:::..::\n");
-    printf("##::::::: #########: ######::: ##::::::: #####:::: ######::: ########::. ######::\n");
-    printf(" ##::::::: ##.... ##: ##...:::: ##::::::: ##. ##::: ##...:::: ##.. ##::::..... ##:\n");
-    printf("##::: ##: ##:::: ##: ##::::::: ##::: ##: ##:. ##:: ##::::::: ##::. ##::'##::: ##:\n");
-    printf(". ######:: ##:::: ##: ########:. ######:: ##::. ##: ########: ##:::. ##:. ######::\n");
+    int i = 0, j = 0;
+
+    // Filling top -A TO C
+    for (i = 0; i < 3; i++)
+    {
+        for (j = 0; j < 8; j++)
+        {
+            if( ((i % 2 == 0) && (j % 2 == 1)) || ((i % 2 == 1) && (j % 2 == 0)) )
+                (*board)[i][j] = 'T'; // Top player
+            else
+                (*board)[i][j] = ' ';
+        }
+    }
+    // Filling middle- 2 empty rows - D , E
+    for (i = 3; i < 5; i++)
+        for (j = 0; j < 8; j++)
+            (*board)[i][j] = ' ';
+    // Filling bottom - F TO H
+    for (i = 5; i < 8; i++)
+    {
+        for (j = 0; j < 8; j++)
+        {
+            if( ((i % 2 == 0) && (j % 2 == 1)) || ((i % 2 == 1) && (j % 2 == 0)) )
+                (*board)[i][j] = 'B'; // Bottom player
+            else
+                (*board)[i][j] = ' ';
+        }
+    }
+}
+static void PrintOpener()
+{
+    printf(":'$$$$$$::'$$::::'$$:'$$$$$$$$::'$$$$$$::'$$:::'$$:'$$$$$$$$:'$$$$$$$$:::'$$$$$$::\n");
+    printf("'$$... $$: $$:::: $$: $$.....::'$$... $$: $$::'$$:: $$.....:: $$.... $$:'$$... $$:\n");
+    printf("$$:::..:: $$:::: $$: $$::::::: $$:::..:: $$:'$$::: $$::::::: $$:::: $$: $$:::..::\n");
+    printf("$$::::::: $$$$$$$$$: $$$$$$::: $$::::::: $$$$$:::: $$$$$$::: $$$$$$$$::. $$$$$$::\n");
+    printf(" $$::::::: $$.... $$: $$...:::: $$::::::: $$. $$::: $$...:::: $$.. $$::::..... $$:\n");
+    printf("$$::: $$: $$:::: $$: $$::::::: $$::: $$: $$:. $$:: $$::::::: $$::. $$::'$$::: $$:\n");
+    printf(". $$$$$$:: $$:::: $$: $$$$$$$$:. $$$$$$:: $$::. $$: $$$$$$$$: $$:::. $$:. $$$$$$::\n");
     printf(":......:::..:::::..::........:::......:::..::::..::........::..:::::..:::......:::\n");
+    printf("\n\n\n");
 }
