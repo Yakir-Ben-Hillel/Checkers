@@ -52,7 +52,7 @@ static SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos s
 		return baseTree;
 	}
 	soldierStatus(board, src, pl, options, captures);		 // Returns an array of 2 possible moves- index 0 to the left, index 1 to the right
-	baseTree.source->total_captures_so_far += countCaptures; // Update captures so far
+	baseTree.source->total_captures_so_far += countCaptures; // Updates captures so far
 
 	// Compliment case - Connecting sub - Trees to the base Tree + recursive calls
 	if ((options[0].col == 0) && (options[0].row == 0))//If there is no left sub tree to merge into the base tree.
