@@ -10,9 +10,8 @@ int main()
 {
     // Opener- Checkers game
     PrintOpener();
-    Board startingBoard;
     // Fill board
-    Board startingBoard={
+    Board startingBoard1={
     {' ', 'T', ' ', 'T', ' ', 'T', ' ', 'T'},
     {'T', ' ', 'T', ' ', 'T', ' ', 'T', ' '},
     {' ', 'T', ' ', 'T', ' ', 'T', ' ', 'T'},
@@ -22,8 +21,19 @@ int main()
     {' ', 'B', ' ', 'B', ' ', 'B', ' ', 'B'},
     {'B', ' ', 'B', ' ', 'B', ' ', 'B', ' '},
 };
+    Board startingBoard2={
+    {' ', 'T', ' ', 'T', ' ', 'T', ' ', 'T'},
+    {'T', ' ', 'T', ' ', 'T', ' ', 'T', ' '},
+    {' ', 'T', ' ', 'T', ' ', 'T', ' ', 'T'},
+    {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+    {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+    {'B', ' ', 'B', ' ', 'B', ' ', 'B', ' '},
+    {' ', 'B', ' ', 'B', ' ', 'B', ' ', 'B'},
+    {'B', ' ', 'B', ' ', 'B', ' ', 'B', ' '},
+};
+
     printf("Starting Board\n");
-    printBoard(startingBoard);
+    printBoard(startingBoard1);
     printf("\n\n\n");
 
     // for end cases
@@ -48,15 +58,15 @@ src2.row = 'B'; src2.col = '3';
 
 printf ("src1 coordinate: %c X %c \n , src2 coordinate: %c X %c\n", src1.row, src1.col, src2.row, src2.col);
 
-SingleSourceMovesTree *movesTree1= FindSingleSourceMoves(startingBoard, &src1);
-SingleSourceMovesTree *movesTree2= FindSingleSourceMoves(startingBoard, &src2);
+SingleSourceMovesTree *movesTree1;
+SingleSourceMovesTree *movesTree2;
+movesTree1= FindSingleSourceMoves(startingBoard1, &src1);
+movesTree2= FindSingleSourceMoves(startingBoard2, &src2);
 
     printf("src1 coordinate: %c X %c \n , src2 coordinate: %c X %c\n", src1.row, src1.col, src2.row, src2.col);
 
 printTreeInOrder (movesTree1);
 printTreeInOrder (movesTree2);
-printTreeInOrder (movesTree3);
-printTreeInOrder (movesTree4);
 
     printTreeInOrder(movesTree1);
     printTreeInOrder(movesTree2);
@@ -128,7 +138,7 @@ void fillStartingBoard(Board *board)
         }
     }
 }
-static void PrintOpener()
+void PrintOpener()
 {
     printf(":'$$$$$$::'$$::::'$$:'$$$$$$$$::'$$$$$$::'$$:::'$$:'$$$$$$$$:'$$$$$$$$:::'$$$$$$::\n");
     printf("'$$... $$: $$:::: $$: $$.....::'$$... $$: $$::'$$:: $$.....:: $$.... $$:'$$... $$:\n");
