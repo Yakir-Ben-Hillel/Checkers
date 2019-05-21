@@ -48,13 +48,14 @@ int main()
 
     SingleSourceMovesTree *movesTree1 = NULL;
     SingleSourceMovesTree *movesTree2 = NULL;
-    movesTree1 = FindSingleSourceMoves(startingBoard, src1);
-    movesTree2 = FindSingleSourceMoves(testBoard, src2);
+    movesTree1 = FindSingleSourceMoves(startingBoard, &src1);
+    movesTree2 = FindSingleSourceMoves(testBoard, &src2);
 
     printf("src1 coordinate: %c X %c \n , src2 coordinate: %c X %c\n", src1.row, src1.col, src2.row, src2.col);
 
     printTreeInOrder(movesTree1);
     printTreeInOrder(movesTree2);
+    system("pause"); // Need to be deleted 
     return 0;
 }
 

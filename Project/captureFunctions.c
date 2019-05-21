@@ -1,13 +1,13 @@
 #include "PrototypesProject.h"
-static void updateTableNoCapture(Board board, checkersPos src, checkersPos *options, player pl, int direction);
-static void captureFromoptionZero(Board board, checkersPos src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures);
-static void captureFromoptionOne(Board board, checkersPos src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures);
+static void updateTableNoCapture(Board board, checkersPos *src, checkersPos *options, player pl, int direction);
+static void captureFromoptionZero(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures);
+static void captureFromoptionOne(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures);
 // Update the board based on possible near moves and captions
-static BOOL isThereACapture(checkersPos *options, checkersPos *captures, int *ind); // Determines whether there's an option of move with a
+static BOOL isThereACapture(checkersPos *options, checkersPos *captures, int *ind); // Determines whether there's an option of a move with a
 																					// capture between the given captures, if exist
-																					// Return true in case there's a match between a capture and
+																					// Return true in case there's a match between a capture and a move
 
-void handleBoardChange(Board board, checkersPos src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures)
+void handleBoardChange(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures)
 {
 	int Ind = -1; // Index for the array of captures, Initialized in case there's a matched capture
 
@@ -34,8 +34,8 @@ void handleBoardChange(Board board, checkersPos src, player pl, int direction, c
 
 static BOOL isThereACapture(checkersPos *options, checkersPos *captures, int *ind)
 {
-	// Check for the first potential capture              
-    // Checks wether one of the captions matches the move option
+	// Check for the first potential capture
+	// Checks wether one of the captions matches the move option
 	if ((captures[0].col != 0) && (captures[0].row != 0))
 	{			  // In case its a valid coordinate
 		*ind = 0; // Updating the index of the capture
@@ -51,12 +51,11 @@ static BOOL isThereACapture(checkersPos *options, checkersPos *captures, int *in
 	return FALSE;
 }
 
-
-static void captureFromoptionZero(Board board, checkersPos src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures)
-{//Checks  if there is a capture in option[0].
+static void captureFromoptionZero(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures)
+{ //Checks  if there is a capture in option[0].
 	if (((abs((options[0].row) - (captures[0].row))) == 1) && ((abs((options[0].col) - (captures[0].col))) == 1))
 	{
-		board[src.row - 'A'][src.col - '0' - 1] = ' ';				   // Removing the player from its last position
+		board[src->row - 'A'][src->col - '0' - 1] = ' ';			   // Removing the player from its last position
 		board[options[0].row - 'A'][options[0].col - '0' - 1] = pl;	// Moving the player to the place given in options array
 		board[captures[0].row - 'A'][captures[0].col - '0' - 1] = ' '; // Removing the captured player from board
 		(*countCaptures)++;
@@ -64,46 +63,45 @@ static void captureFromoptionZero(Board board, checkersPos src, player pl, int d
 	else if (((abs((options[0].row) - (captures[1].row))) == 1) && ((abs((options[0].col) - (captures[1].col))) == 1))
 
 	{
-		board[src.row - 'A'][src.col - '0' - 1] = ' ';				   // Removing the player from its last position
+		board[src->row - 'A'][src->col - '0' - 1] = ' ';				   // Removing the player from its last position
 		board[options[0].row - 'A'][options[0].col - '0' - 1] = pl;	// Moving the player to the place given in options array
 		board[captures[1].row - 'A'][captures[1].col - '0' - 1] = ' '; // Removing the captured player from board
 		(*countCaptures)++;
 	}
 }
-static void captureFromoptionOne(Board board, checkersPos src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures)
-{//Checks if there is a capture in option[1].
+static void captureFromoptionOne(Board board, checkersPos* src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures)
+{ //Checks if there is a capture in option[1].
 	if (((abs((options[1].row) - (captures[0].row))) == 1) && ((abs((options[1].col) - (captures[0].col))) == 1))
 	{
-		board[src.row - 'A'][src.col - '0' - 1] = ' ';				   // Removing the player from its last position
+		board[src->row - 'A'][src->col - '0' - 1] = ' ';				   // Removing the player from its last position
 		board[options[1].row - 'A'][options[1].col - '0' - 1] = pl;	// Moving the player to the place given in options array
 		board[captures[0].row - 'A'][captures[0].col - '0' - 1] = ' '; // Removing the captured player from board
 		(*countCaptures)++;
 	}
 	else if (((abs((options[1].row) - (captures[1].row))) == 1) && ((abs((options[1].col) - (captures[1].col))) == 1))
 	{
-		board[src.row - 'A'][src.col - '0' - 1] = ' ';				   // Removing the player from its last position
+		board[src->row - 'A'][src->col - '0' - 1] = ' ';				   // Removing the player from its last position
 		board[options[1].row - 'A'][options[1].col - '0' - 1] = pl;	// Moving the player to the place given in options array
 		board[captures[1].row - 'A'][captures[1].col - '0' - 1] = ' '; // Removing the captured player from board
 		(*countCaptures)++;
 	}
 }
-static void updateTableNoCapture(Board board, checkersPos src, checkersPos *options, player pl, int direction)
-{//Update the table when there is no capture.
+static void updateTableNoCapture(Board board, checkersPos* src, checkersPos *options, player pl, int direction)
+{ //Update the table when there is no capture.
 	if (direction == 0)
-	{//if the step is in option[0].
+	{ //if the step is in option[0].
 		if ((options[0].col != 0) && (options[0].row != 0))
 		{
-			board[src.row - 'A'][src.col - '0' - 1] = ' '; // Removing the player from its last position
+			board[src->row - 'A'][src->col - '0' - 1] = ' '; // Removing the player from its last position
 			board[options[0].row - 'A'][options[0].col - '0' - 1] = pl;
 		}
 	}
 	else
-	{//if the step is in option[1].
+	{ //if the step is in option[1].
 		if ((options[1].col != 0) && (options[1].row != 0))
 		{
-			board[src.row - 'A'][src.col - '0' - 1] = ' '; // Removing the player from its last position
+			board[src->row - 'A'][src->col - '0' - 1] = ' '; // Removing the player from its last position
 			board[options[1].row - 'A'][options[1].col - '0' - 1] = pl;
 		}
 	}
 }
-

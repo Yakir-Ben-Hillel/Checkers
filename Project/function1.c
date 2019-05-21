@@ -1,13 +1,13 @@
 #include "PrototypesProject.h"
 // function1 Prototypes
 // return in the options array the nearest possible coordinates for moving and in accordance the place of an eaten soldier if exists
-static SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos src, player pl, int countLevel); // Auxiliary function for building the tree moves
-static void initializePlayer(Board board, checkersPos src, player *currentPlayer);								// Initializing the player based on the given coordinate
-static void initializeBoardOfPlayer(Board board, Board *boardOfPlayer);											// Initializing the board of a given coordinate
-static void allocateTreeNode(SingleSourceMovesTree *baseTree, checkersPos src);									// Allocates tree Node
-static void allocateOptionsAndCaptures(checkersPos **options, checkersPos **captures);							//Allocate options and captures arrays.
-static void makeLeaf(SingleSourceMovesTreeNode *leaf, checkersPos src);											//Make a leaf in the tree.
-SingleSourceMovesTree *FindSingleSourceMoves(Board board, checkersPos src)
+static SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos *src, player pl, int countLevel); // Auxiliary function for building the tree moves
+static void initializePlayer(Board board, checkersPos *src, player *currentPlayer);								 // Initializing the player based on the given coordinate
+static void initializeBoardOfPlayer(Board board, Board *boardOfPlayer);											 // Initializing the board of a given coordinate
+static void allocateTreeNode(SingleSourceMovesTree *baseTree, checkersPos *src);								 // Allocates tree Node
+static void allocateOptionsAndCaptures(checkersPos **options, checkersPos **captures);							 //Allocate options and captures arrays.
+static void makeLeaf(SingleSourceMovesTreeNode *leaf, checkersPos *src);										 //Make a leaf in the tree.
+SingleSourceMovesTree *FindSingleSourceMoves(Board board, checkersPos *src)
 {
 	SingleSourceMovesTree *movesTree = NULL;
 	player currentPlayer;
@@ -21,17 +21,17 @@ SingleSourceMovesTree *FindSingleSourceMoves(Board board, checkersPos src)
 	}
 	return (movesTree); // Returns the tree moves or a NULL in case the cell is free
 }
-static void initializePlayer(Board board, checkersPos src, player *currentPlayer)
+static void initializePlayer(Board board, checkersPos *src, player *currentPlayer)
 {
-	*(currentPlayer) = board[src.row - 'A'][src.col - '0' - 1]; // Initializing the player found in the given coordinate
+	*(currentPlayer) = board[src->row - 'A'][src->col - '0' - 1]; // Initializing the player found in the given coordinate
 }
-static void makeLeaf(SingleSourceMovesTreeNode *leaf, checkersPos src)
+static void makeLeaf(SingleSourceMovesTreeNode *leaf, checkersPos *src)
 {
-	leaf->pos->col = src.col;
-	leaf->pos->row = src.row;
+	leaf->pos->col = src->col;
+	leaf->pos->row = src->row;
 	leaf->next_move[0] = leaf->next_move[1] = NULL; //It's a leaf.
 }
-static SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos src, player pl, int countLevel)
+static SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos *src, player pl, int countLevel)
 {
 	// Initialized due to security reasons
 	SingleSourceMovesTree treeOne = {NULL}, treeTwo = {NULL}, baseTree = {NULL};
@@ -42,7 +42,7 @@ static SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos s
 	allocateOptionsAndCaptures(&options, &captures);
 	if (countLevel == 1)
 		baseTree.source->total_captures_so_far = 0;
-	if (((src.row == 'H') && (pl == 'T')) || ((src.row == 'A') && (pl == 'B'))) //If reached the end of the board.
+	if (((src->row == 'H') && (pl == 'T')) || ((src->row == 'A') && (pl == 'B'))) //If reached the end of the board.
 	{
 		makeLeaf(baseTree.source, src);
 		return baseTree;
@@ -50,38 +50,45 @@ static SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos s
 	soldierStatus(board, src, pl, options, captures);		 // Returns an array of 2 possible moves- index 0 to the left, index 1 to the right
 	baseTree.source->total_captures_so_far += countCaptures; // Updates captures so far
 	// Compliment case - Connecting sub - Trees to the base Tree + recursive calls
+	
+	// handle sub tree one	
 	if ((options[0].col == 0) && (options[0].row == 0)) //If there is no left sub tree to merge into the base tree.
 	{
 		treeOne.source = NULL;
 		initializeBoardOfPlayer(board, &baseTree.source->board); // Initializing board the current root
+		return(treeOne);
 	}
 	else
-	{
-		// after this call while countLevel==1
-		//allocatePTreeNode(baseTree.source->next_move[0], treeOne.source->pos);				   // Allocate the pointer to the next node
+	{	
 		initializeBoardOfPlayer(board, &baseTree.source->board);								  // Initializing board the current root
-		handleBoardChange(baseTree.source->board, src, pl, 0, options, captures, &countCaptures); //Does the required step.
-		printBoard(baseTree.source->board);														  //Prints the board after the step.
-		treeOne = FindSingleSourceMovesAux(baseTree.source->board, options[0], pl, countLevel + 1);
+		handleBoardChange(board, src, pl, 0, options, captures, &countCaptures); //Does the required step.
+		printBoard(board);	
+													  //Prints the board after the step.
+		printBoard(baseTree.source->board);	
+		treeOne = FindSingleSourceMovesAux(board, options, pl, countLevel + 1);
 		baseTree.source->total_captures_so_far += treeOne.source->total_captures_so_far; // Update captures
 	}
 	baseTree.source->next_move[0] = treeOne.source;
+
+	// handle sub tree two
 	if ((options[1].col == 0) && (options[1].row == 0)) //if there is no right sub tree to merge into the base tree.
 	{
 		treeTwo.source = NULL;
 		initializeBoardOfPlayer(board, &baseTree.source->board); // Initializing board the current root
+		return(treeTwo);
 	}
 	else
-	{
-		//allocatePTreeNode(baseTree.source->next_move[1], treeTwo.source->pos);  				   // Allocate the pointer to the next node
+	{	
 		initializeBoardOfPlayer(board, &baseTree.source->board);
 		// Initializing board the current root
-		handleBoardChange(baseTree.source->board, src, pl, 1, options, captures, &countCaptures); // Handles change due to next move update in the tree + update captures counter
-		printBoard(baseTree.source->board);
-		treeTwo = FindSingleSourceMovesAux(baseTree.source->board, options[1], pl, countLevel + 1);
+		handleBoardChange(board, src, pl, 1, options, captures, &countCaptures); // Handles change due to next move update in the tree + update captures counter
+		printBoard(board);
+		printBoard(baseTree.source->board);	
+		treeTwo = FindSingleSourceMovesAux(board, options + 1, pl, countLevel + 1);
 		baseTree.source->total_captures_so_far += treeTwo.source->total_captures_so_far; // Update captures
 	}
 	baseTree.source->next_move[1] = treeTwo.source;
+	
 	// Free the arrays allocated at start
 	free(options);
 	free(captures);
@@ -94,14 +101,14 @@ static void allocateOptionsAndCaptures(checkersPos **options, checkersPos **capt
 	*captures = (checkersPos *)calloc(2, sizeof(checkersPos));
 	checkAllocation(captures);
 }
-static void allocateTreeNode(SingleSourceMovesTree *baseTree, checkersPos src)
+static void allocateTreeNode(SingleSourceMovesTree *baseTree, checkersPos *src)
 {
 	baseTree->source = (SingleSourceMovesTreeNode *)malloc(sizeof(SingleSourceMovesTreeNode));
 	checkAllocation(baseTree->source);									// Checking whether the memory allocation succeeded or not
 	baseTree->source->pos = (checkersPos *)malloc(sizeof(checkersPos)); // Allocating pointer to 'position' struct (checkersPos)
 	checkAllocation(baseTree->source->pos);
-	baseTree->source->pos->col = src.col; // Updating the position of the current node
-	baseTree->source->pos->row = src.row; // Updating the position of the current node
+	baseTree->source->pos->col = src->col; // Updating the position of the current node
+	baseTree->source->pos->row = src->row; // Updating the position of the current node
 }
 static void initializeBoardOfPlayer(Board board, Board *boardOfPlayer)
 {
