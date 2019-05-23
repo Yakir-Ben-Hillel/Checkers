@@ -38,7 +38,7 @@ static void testsForTLeft(Board board, checkersPos* src, checkersPos *options, c
         }
         else if ((src->col >= '3') && (src->col <= '6') && (src->row <= 'F'))
         { //TEST 2: checks if the soldier can eat an enemy soldier.
-            soldier = src;
+            *soldier = *src;
             soldier->row = soldier->row + 1;
             soldier->col = soldier->col - 1;
             if ((!isCellFree(board, soldier) && (board[(int)(soldier->row) - 'A'][soldier->col - '0' - 1] == 'B')))
@@ -70,7 +70,7 @@ static void testsForTRight(Board board, checkersPos* src, checkersPos *options, 
         }
         else if ((src->col >= '3') && (src->col <= '6') && (src->row <= 'F'))
         { //TEST 2: checks if the soldier can eat an enemy soldier.
-            soldier = src;
+            *soldier = *src;
             soldier->row = src->row + 1;
             soldier->col = src->col + 1;
             if ((!isCellFree(board, soldier) && (board[(int)soldier->row - 'A'][soldier->col - '0' - 1] == 'B')))
@@ -114,7 +114,7 @@ static void testsForBLeft(Board board, checkersPos* src, checkersPos *options, c
 
         else if ((src->col >= '3') && (src->col <= '6') && (src->row <= 'C'))
         { //TEST 2: checks if the soldier can eat an enemy soldier.
-            soldier = src;
+            *soldier = *src;
             soldier->row = soldier->row - 1;
             soldier->col = soldier->col - 1;
             if ((!isCellFree(board, soldier) && (board[(int)(soldier->row - 'A')][soldier->col - '0' - 1] == 'T')))
@@ -148,7 +148,7 @@ static void testsForBRight(Board board, checkersPos* src, checkersPos *options, 
 
         else if ((src->col >= '3') && (src->col <= '6') && (src->row <= 'C'))
         { //TEST 2: checks if the soldier can eat an enemy soldier.
-            soldier = src;
+            *soldier = *src;
             soldier->row = soldier->row - 1;
             soldier->col = soldier->col + 1;
             if ((!isCellFree(board, soldier) && (board[(int)soldier->row - 'A'][soldier->col - '0' - 1] == 'T')))

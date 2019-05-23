@@ -100,6 +100,15 @@ static void updateTableNoCapture(Board board, checkersPos* src, checkersPos *opt
 	{ //if the step is in option[1].
 		if ((options[1].col != 0) && (options[1].row != 0))
 		{
+			if(board[options[0].row-'A'][options[0].col-'0'-1]==pl)
+			{//This option becomes available only after the recursion 
+			// as already entered and returned from option zero.
+			// a player as been added to the place in option zero,
+			// and in order to go into the option one without the player who as been added
+			// in option zero, there is a need to remove it before continueing 
+			//this proccess does not affect the option tree at all.
+				board[options[0].row-'A'][options[0].col-'0'-1]=' ';
+			}
 			board[src->row - 'A'][src->col - '0' - 1] = ' '; // Removing the player from its last position
 			board[options[1].row - 'A'][options[1].col - '0' - 1] = pl;
 		}

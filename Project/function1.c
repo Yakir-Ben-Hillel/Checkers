@@ -18,6 +18,7 @@ SingleSourceMovesTree *FindSingleSourceMoves(Board board, checkersPos *src)
 		movesTree = (SingleSourceMovesTree *)malloc(sizeof(SingleSourceMovesTree));
 		checkAllocation(movesTree);
 		*movesTree = FindSingleSourceMovesAux(board, src, currentPlayer, countLevel + 1);
+		printf("The amount of captures is: %hu",movesTree->source->total_captures_so_far);
 	}
 	return (movesTree); // Returns the tree moves or a NULL in case the cell is free
 }
@@ -40,33 +41,38 @@ static SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos *
 	// Allocating a tree node
 	allocateTreeNode(&baseTree, src); // Updates position
 	allocateOptionsAndCaptures(&options, &captures);
-	if (countLevel == 1)
-		baseTree.source->total_captures_so_far = 0;
+	//	if (countLevel == 1)
+	baseTree.source->total_captures_so_far = 0;
 	if (((src->row == 'H') && (pl == 'T')) || ((src->row == 'A') && (pl == 'B'))) //If reached the end of the board.
 	{
 		makeLeaf(baseTree.source, src);
+		initializeBoardOfPlayer(board, &baseTree.source->board); // Initializing board the current root
+		printBoard(baseTree.source->board);
 		return baseTree;
 	}
 	soldierStatus(board, src, pl, options, captures);		 // Returns an array of 2 possible moves- index 0 to the left, index 1 to the right
 	baseTree.source->total_captures_so_far += countCaptures; // Updates captures so far
 	// Compliment case - Connecting sub - Trees to the base Tree + recursive calls
-	
-	// handle sub tree one	
+
+	// handle sub tree one
 	if ((options[0].col == 0) && (options[0].row == 0)) //If there is no left sub tree to merge into the base tree.
 	{
 		treeOne.source = NULL;
 		initializeBoardOfPlayer(board, &baseTree.source->board); // Initializing board the current root
-		return(treeOne);
+		printBoard(baseTree.source->board);
 	}
 	else
-	{	
-		initializeBoardOfPlayer(board, &baseTree.source->board);								  // Initializing board the current root
+	{
+		initializeBoardOfPlayer(board, &baseTree.source->board);				 // Initializing board the current root
 		handleBoardChange(board, src, pl, 0, options, captures, &countCaptures); //Does the required step.
-		printBoard(board);	
-													  //Prints the board after the step.
-		printBoard(baseTree.source->board);	
+		//printBoard(board);
+		//Prints the board after the step.
+		printBoard(baseTree.source->board);
 		treeOne = FindSingleSourceMovesAux(board, options, pl, countLevel + 1);
-		baseTree.source->total_captures_so_far += treeOne.source->total_captures_so_far; // Update captures
+		if (treeOne.source != NULL)
+		{
+			baseTree.source->total_captures_so_far += treeOne.source->total_captures_so_far; // Update captures
+		}
 	}
 	baseTree.source->next_move[0] = treeOne.source;
 
@@ -74,21 +80,25 @@ static SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos *
 	if ((options[1].col == 0) && (options[1].row == 0)) //if there is no right sub tree to merge into the base tree.
 	{
 		treeTwo.source = NULL;
-		initializeBoardOfPlayer(board, &baseTree.source->board); // Initializing board the current root
-		return(treeTwo);
+		if ((options[0].col != 0) && (options[0].row != 0))
+		{
+			board[options[0].row - 'A'][options[0].col - '0' - 1] = ' ';
+			initializeBoardOfPlayer(board, &baseTree.source->board); // Initializing board the current root
+		}
 	}
 	else
-	{	
-		initializeBoardOfPlayer(board, &baseTree.source->board);
+	{
 		// Initializing board the current root
 		handleBoardChange(board, src, pl, 1, options, captures, &countCaptures); // Handles change due to next move update in the tree + update captures counter
-		printBoard(board);
-		printBoard(baseTree.source->board);	
+		printBoard(baseTree.source->board);
 		treeTwo = FindSingleSourceMovesAux(board, options + 1, pl, countLevel + 1);
-		baseTree.source->total_captures_so_far += treeTwo.source->total_captures_so_far; // Update captures
+		if (treeTwo.source != NULL)
+		{
+			baseTree.source->total_captures_so_far += treeTwo.source->total_captures_so_far; // Update captures.
+		}
 	}
 	baseTree.source->next_move[1] = treeTwo.source;
-	
+
 	// Free the arrays allocated at start
 	free(options);
 	free(captures);
