@@ -10,8 +10,8 @@
             "args": [
                 "-Wall",
                 "-g",
-                "${fileDirname}\\function1.c",
                 "${fileDirname}\\main.c",
+                "${fileDirname}\\buildTreeFunctions.c",
                 "${fileDirname}\\captureFunctions.c",
                 "${fileDirname}\\testFunctions.c",
                 "-o",

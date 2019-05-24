@@ -38,8 +38,8 @@ void printTreeInOrderAux(SingleSourceMovesTreeNode *source);
 void handleBoardChange(Board board, checkersPos* src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures);
 
 //Fill
-void fillOptions(checkersPos *soldier, checkersPos *options);
-void fillCaptures(checkersPos *soldier, checkersPos *captures);
+void fillOptions(checkersPos *soldier, checkersPos *options,int direction);
+void fillCaptures(checkersPos *soldier, checkersPos *captures,int direction);
 //Fill
 
 /*Tests*/

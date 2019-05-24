@@ -9,7 +9,7 @@ static BOOL isThereACapture(checkersPos *options, checkersPos *captures, int *in
 
 void handleBoardChange(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures)
 {
-	int Ind = -1; // Index for the array of captures, Initialized in case there's a matched capture
+	int Ind = direction; // Index for the array of captures, Initialized in case there's a matched capture
 
 	if ((isThereACapture(options, captures, &Ind)))
 	{
