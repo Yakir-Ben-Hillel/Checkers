@@ -32,10 +32,8 @@ typedef struct _SingleSourceMovesTree
 /*Declartions*/
 SingleSourceMovesTree *FindSingleSourceMoves(Board board, checkersPos* src);
 void checkAllocation(void *address);
-void printBoard(Board board); // debugging purpose only
-void printTreeInOrder(SingleSourceMovesTree *movesTree);
-void printTreeInOrderAux(SingleSourceMovesTreeNode *source);
 void handleBoardChange(Board board, checkersPos* src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures);
+void fillStartingBoard(Board *board);
 
 //Fill
 void fillOptions(checkersPos *soldier, checkersPos *options,int direction);
@@ -45,7 +43,16 @@ void fillCaptures(checkersPos *soldier, checkersPos *captures,int direction);
 /*Tests*/
 void soldierStatus(Board board, checkersPos* src, player pl, checkersPos *options, checkersPos *captures); //Added option for player(inserting B OR T).
 BOOL isCellFree(Board board, checkersPos* soldier);
-
 /*Tests*/
+
+/*Printing*/
+void printTreeInOrder(SingleSourceMovesTree *movesTree);
+void printTreeBoardInOrderAux(SingleSourceMovesTreeNode *source);
+void printTreeSourcesInOrderAux(SingleSourceMovesTreeNode *source);
+void printBoard(Board board);
+void PrintOpener();
+
+/*Printing*/
+
 
 /*Declartions*/

@@ -4,7 +4,6 @@
 static SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos *src, player pl, int countLevel); // Auxiliary function for building the tree moves
 static void initializePlayer(Board board, checkersPos *src, player *currentPlayer);								 // Initializing the player based on the given coordinate
 static void initializeBoardOfPlayer(Board board, player pl, Board *boardOfPlayer, checkersPos src, checkersPos *options, checkersPos *captures);
-static void backToThisBoardStatus(Board *board, player pl, checkersPos src, checkersPos *options, checkersPos *captures);
 static void allocateTreeNode(SingleSourceMovesTree *baseTree, checkersPos *src);	   // Allocates tree Node
 static void allocateOptionsAndCaptures(checkersPos **options, checkersPos **captures); //Allocate options and captures arrays.
 static void makeLeaf(SingleSourceMovesTreeNode *leaf, checkersPos *src);			   //Makes a leaf.
@@ -29,7 +28,6 @@ SingleSourceMovesTree *FindSingleSourceMoves(Board board, checkersPos *src)
 		movesTree = (SingleSourceMovesTree *)malloc(sizeof(SingleSourceMovesTree));
 		checkAllocation(movesTree);
 		*movesTree = FindSingleSourceMovesAux(board, src, currentPlayer, countLevel + 1);
-		printf("The amount of captures is: %hu\n", movesTree->source->total_captures_so_far);
 	}
 	return (movesTree); // Returns the tree moves or a NULL in case the cell is free
 }
@@ -58,18 +56,17 @@ static SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos *
 
 	handleTreeOne(&baseTree, &treeOne, board, pl, src, options, captures, &countCaptures, countLevel); //Makes treeOne.
 	handleTreeTwo(&baseTree, &treeTwo, board, pl, src, options, captures, &countCaptures, countLevel); //Makes treeTwo.
-	printBoard(baseTree.source->board);
 
 	// Free the arrays allocated at start
 	free(options);
 	free(captures);
 	return (baseTree);
 }
+
 static void handleLeaf(SingleSourceMovesTree *baseTree, Board board, player pl, checkersPos *src, checkersPos *options, checkersPos *captures)
 {
 	makeLeaf(baseTree->source, src);
 	initializeBoardOfPlayer(board, pl, &baseTree->source->board, *src, options, captures); // Initializing board the current root
-	printBoard(baseTree->source->board);
 }
 static unsigned int updateCountCaptures(checkersPos *captures)
 {
@@ -92,9 +89,7 @@ static void handleTreeOne(SingleSourceMovesTree *baseTree, SingleSourceMovesTree
 	else
 	{
 		initializeBoardOfPlayer(board, pl, &baseTree->source->board, *src, options, captures); // Initializing board the current root.
-		printBoard(board);
-		handleBoardChange(board, src, pl, 0, options, captures, countCaptures); //Does the required step.
-		//Prints the board after the step.
+		handleBoardChange(board, src, pl, 0, options, captures, countCaptures);				   // Handles change due to next move update in the tree + update captures counter.
 		*treeOne = FindSingleSourceMovesAux(board, options, pl, countLevel + 1);
 		if (treeOne->source != NULL)
 		{
@@ -121,8 +116,7 @@ static void handleTreeTwo(SingleSourceMovesTree *baseTree, SingleSourceMovesTree
 	{
 		// Initializing board the current root
 		initializeBoardOfPlayer(board, pl, &baseTree->source->board, *src, options, captures); // Initializing board the current root
-		printBoard(board);
-		handleBoardChange(board, src, pl, 1, options, captures, countCaptures); // Handles change due to next move update in the tree + update captures counter
+		handleBoardChange(board, src, pl, 1, options, captures, countCaptures);				   // Handles change due to next move update in the tree + update captures counter.
 		*treeTwo = FindSingleSourceMovesAux(board, options + 1, pl, countLevel + 1);
 		if (treeTwo->source != NULL)
 		{
@@ -223,38 +217,4 @@ void fillCaptures(checkersPos *soldier, checkersPos *captures, int direction)
 		captures[1].row = soldier->row;
 	}
 	return; // in case both cells are taken
-}
-void printBoard(Board board) // debugging purpose only
-{
-	printf("\n\n");
-	int i, j;
-	for (i = 0; i < 8; i++)
-	{
-		for (j = 0; j < 8; j++)
-		{
-			printf("%c||", board[i][j]);
-		}
-		printf("\n");
-	}
-}
-void printTreeInOrder(SingleSourceMovesTree *movesTree)
-{
-	if (movesTree == NULL)
-		return;
-	else
-	{
-		printTreeInOrderAux(movesTree->source);
-		printf("\n");
-	}
-}
-void printTreeInOrderAux(SingleSourceMovesTreeNode *source)
-{
-	if (source == NULL)
-		return;
-	else
-	{
-		printTreeInOrderAux(source->next_move[0]);
-		printf("%c%c ", source->pos->row, source->pos->col);
-		printTreeInOrderAux(source->next_move[1]);
-	}
 }
