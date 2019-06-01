@@ -1,3 +1,4 @@
+
 #include "PrototypesFunc2.h"
 
 static void FindSingleSourceOptimalMoveAux(SingleSourceMovesTreeNode * source, SingleSourceMovesList *OptimalMoveList, unsigned short count);

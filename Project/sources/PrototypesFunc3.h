@@ -1,12 +1,12 @@
 #pragma once
 #include "PrototypesFunc2.h"
 
-typedef struct _MultipleSourceMovesListCell {
+typedef struct __MultipleSourceMovesListCell {
 	SingleSourceMovesList *Single_Source_moves_list; // Pointer to a single source moves list
-	struct _MultipleSourceMovesListCell * next; // Pointer to the next list
+	struct __MultipleSourceMovesListCell * next; // Pointer to the next list
 } MultipleSourceMovesListCell;
 
-typedef struct _MultipleSingleSourceMovesList
+typedef struct __MultipleSingleSourceMovesList
 {
 	MultipleSourceMovesListCell *head; // Points to the first list in the multiple-source-moves list 
 	MultipleSourceMovesListCell *tail; // Points to the last list in the multiple-source-moves list

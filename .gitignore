@@ -1,3 +1,4 @@
-
+*.json
 *.ipch
 *.bin
+*.exe

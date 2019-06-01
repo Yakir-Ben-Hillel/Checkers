@@ -1,13 +1,13 @@
 #pragma once 
 #include "PrototypesProject.h"
 
-typedef struct _SingleSourceMovesListCell {
-	checkersPos						*position; // Indicataes the position of player 
+typedef struct __SingleSourceMovesListCell {
+	checkersPos						*position; // Indicates the position of player 
 	unsigned short					captures; // number of captures per position
-	struct _SingleSourceMovesListCell	*next; // next move to be done
+	struct __SingleSourceMovesListCell	*next; // next move to be done
 }SingleSourceMovesListCell;
 
-typedef struct _SingleSourceMoveList {
+typedef struct __SingleSourceMoveList {
 	SingleSourceMovesListCell  *head;
 	SingleSourceMovesListCell  *tail;
 }SingleSourceMovesList;
