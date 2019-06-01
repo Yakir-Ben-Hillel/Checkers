@@ -1,6 +1,4 @@
 #include "PrototypesProject.h"
-#include "PrototypesFunc2.h"
-#include "PrototypesFunc3.h"
 void PrintOpener();
 void fillStartingBoard(Board *board);
 int main()

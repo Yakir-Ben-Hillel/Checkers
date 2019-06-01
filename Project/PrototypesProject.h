@@ -7,42 +7,68 @@
 #define TRUE 1
 #define FALSE 0
 #define ALLOCATION_ERROR -1
+#define MAX (a, b)(a > b ? a : b)
+
 typedef int BOOL;
 /*Structs*/
-typedef struct _checkersPos
+typedef struct __checkersPos
 {
     char row, col;
 } checkersPos;
 /*Structs*/
 typedef unsigned char Board[BOARD_SIZE][BOARD_SIZE];
 typedef unsigned char player;
-typedef struct _SingleSourceMovesTreeNode
+typedef struct __SingleSourceMovesTreeNode
 {
     Board board;
     checkersPos *pos;
     unsigned short total_captures_so_far;            //Number of Captures
-    struct _SingleSourceMovesTreeNode *next_move[2]; // movement destinations
+    struct __SingleSourceMovesTreeNode *next_move[2]; // movement destinations
 } SingleSourceMovesTreeNode;
 
-typedef struct _SingleSourceMovesTree
+typedef struct __SingleSourceMovesTree
 {
     SingleSourceMovesTreeNode *source;
 } SingleSourceMovesTree;
 
+typedef struct __SingleSourceMovesList
+{
+    struct __SingleSourceMovesListCell *head;
+    struct __SingleSourceMovesListCell *tail;
+} SingleSourceMovesList;
+typedef struct __SingleSourceMovesListCell
+{
+    checkersPos *position;                    // Indicates the position of player
+    unsigned short captures;                  // number of captures per position
+    struct __SingleSourceMovesListCell *next; // next move to be done
+} SingleSourceMovesListCell;
+
+typedef struct __MultipleSourceMovesListCell
+{
+    struct __SingleSourceMovesList *Single_Source_moves_list; // Pointer to a single source moves list
+    struct __MultipleSourceMovesListCell *next;               // Pointer to the next list
+} MultipleSourceMovesListCell;
+
+typedef struct __MultipleSingleSourceMovesList
+{
+    struct __MultipleSourceMovesListCell *head; // Points to the first list in the multiple-source-moves list
+    struct __MultipleSourceMovesListCell *tail; // Points to the last list in the multiple-source-moves list
+} MultipleSingleSourceMovesList;
+
 /*Declartions*/
-SingleSourceMovesTree *FindSingleSourceMoves(Board board, checkersPos* src);
+SingleSourceMovesTree *FindSingleSourceMoves(Board board, checkersPos *src);
 void checkAllocation(void *address);
-void handleBoardChange(Board board, checkersPos* src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures);
+void handleBoardChange(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures);
 void fillStartingBoard(Board *board);
 
 //Fill
-void fillOptions(checkersPos *soldier, checkersPos *options,int direction);
-void fillCaptures(checkersPos *soldier, checkersPos *captures,int direction);
+void fillOptions(checkersPos *soldier, checkersPos *options, int direction);
+void fillCaptures(checkersPos *soldier, checkersPos *captures, int direction);
 //Fill
 
 /*Tests*/
-void soldierStatus(Board board, checkersPos* src, player pl, checkersPos *options, checkersPos *captures); //Added option for player(inserting B OR T).
-BOOL isCellFree(Board board, checkersPos* soldier);
+void soldierStatus(Board board, checkersPos *src, player pl, checkersPos *options, checkersPos *captures); //Added option for player(inserting B OR T).
+BOOL isCellFree(Board board, checkersPos *soldier);
 /*Tests*/
 
 /*Printing*/
@@ -54,5 +80,26 @@ void PrintOpener();
 
 /*Printing*/
 
-
 /*Declartions*/
+
+void freeList(SingleSourceMovesList *lst);
+SingleSourceMovesListCell *createNode(checkersPos *pos, SingleSourceMovesListCell *next); // Creates a node in the list
+void insertNodeToTail(SingleSourceMovesList *lst, SingleSourceMovesListCell *newTail);    // Adding the new to the tail of the list
+void insertNodeToHead(SingleSourceMovesList *lst, SingleSourceMovesListCell *newHead);    // Adding an element to the start of the list
+BOOL isEmptyList(SingleSourceMovesList *lst);                                             // Determines whether the list is empty or not
+void makeEmptyList(SingleSourceMovesList *lst);                                           // Makes empty list
+void printList(SingleSourceMovesList *lst);                                               // Prints the list of single source move
+
+// Function 2
+SingleSourceMovesList *FindSingleSourceOptimalMove(SingleSourceMovesTree *movesTree);
+
+// Function 3
+MultipleSingleSourceMovesList *FindAllPossiblePlayerMoves(Board board, player player);
+
+void freeLoList(MultipleSingleSourceMovesList *Lol);
+MultipleSourceMovesListCell *createLolNode(SingleSourceMovesList *singleSourceMovesList, MultipleSourceMovesListCell *next); // Creates a node of List of lists
+void insertLolNodeToTail(MultipleSingleSourceMovesList *Lol, MultipleSourceMovesListCell *newTail);                          // Adding the new to the tail (last list) of the list
+//void insertLolNodeToHead(MultipleSingleSourceMovesList* Lol , MultipleSourceMovesListCell *newHead); // Adding the list to the start of the list of lists
+BOOL isEmptyLoList(MultipleSingleSourceMovesList *Lol);   // Determines whether the list is empty or not
+void makeEmptyLoList(MultipleSingleSourceMovesList *Lol); // Makes empty list
+void printLoList(MultipleSingleSourceMovesList *Lol);     // Prints the list of single source move
