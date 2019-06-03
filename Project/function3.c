@@ -4,9 +4,10 @@ MultipleSingleSourceMovesList *FindAllPossiblePlayerMoves(Board board, player pl
 {
 	int i = 0, j = 0;
 	MultipleSingleSourceMovesList *MulSrcMovesLoLst = NULL;
-	SingleSourceMovesTree *srcMovestr = NULL;
+	SingleSourceMovesTree *srcMoveTr = NULL;
 	checkersPos src = {0};
-	SingleSourceMovesList *srcMovesLst = NULL;
+	SingleSourceMovesList *srcMovesLst=NULL;
+	makeEmptyList(srcMovesLst);
 	makeEmptyLoList(MulSrcMovesLoLst); // Making an empty list of possible moves lists
 
 	for (i = 0; i < 8; i++)
@@ -18,9 +19,9 @@ MultipleSingleSourceMovesList *FindAllPossiblePlayerMoves(Board board, player pl
 				src.row = i;
 				src.col = j;
 				// Finding a single source moves tree
-				srcMovestr = FindSingleSourceMoves(board, &src);
+				srcMoveTr = FindSingleSourceMoves(board, &src);
 				// Find the best move in each single source moves tree
-				srcMovesLst = FindSingleSourceOptimalMove(srcMovestr);
+				srcMovesLst = FindSingleSourceOptimalMove(srcMoveTr);
 				// Building a List of best moves for each source
 				insertLolNodeToTail(MulSrcMovesLoLst, createLolNode(MulSrcMovesLoLst->head->Single_Source_moves_list, NULL));
 			}

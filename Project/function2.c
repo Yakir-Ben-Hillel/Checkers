@@ -4,7 +4,7 @@ static void FindSingleSourceOptimalMoveAux(SingleSourceMovesTreeNode *source, Si
 
 SingleSourceMovesList *FindSingleSourceOptimalMove(SingleSourceMovesTree *movesTree)
 { // Initialized due to security reasons
-	SingleSourceMovesList *OptimalMoveList = NULL;
+	SingleSourceMovesList *OptimalMoveList= NULL; // Defined as pointer to avoid return of a local variable
 	makeEmptyList(OptimalMoveList); // Making an empty list
 	unsigned short countCap = 0;	// Count Captures of returned list
 
@@ -16,7 +16,7 @@ SingleSourceMovesList *FindSingleSourceOptimalMove(SingleSourceMovesTree *movesT
 	{
 		FindSingleSourceOptimalMoveAux(movesTree->source, OptimalMoveList, countCap); // Finds the single source optimal moves
 	}
-	return (OptimalMoveList); // Returns the List represents the single source optimal moves
+	return(OptimalMoveList); // Returns the List represents the single source optimal moves
 }
 static void FindSingleSourceOptimalMoveAux(SingleSourceMovesTreeNode *source, SingleSourceMovesList *OptimalMoveList, unsigned short count)
 {
@@ -41,9 +41,9 @@ static void FindSingleSourceOptimalMoveAux(SingleSourceMovesTreeNode *source, Si
 	else
 	{
 		//	 Recursive calls
-		if (source->next_move[0] != NULL) // Avoiding unnecessary call
+		if (source->next_move[0] != NULL) // Avoiding unnecessary recursive calls
 			FindSingleSourceOptimalMoveAux(source->next_move[0], leftList, countLeft);
-		if (source->next_move[1] != NULL) // Avoiding unnecessary call
+		if (source->next_move[1] != NULL) // Avoiding unnecessary recursive calls
 			FindSingleSourceOptimalMoveAux(source->next_move[1], rightList, countRight);
 
 		// Check which move is better from the 'returned' options of sub tree right and sub tree right

@@ -7,7 +7,7 @@
 #define TRUE 1
 #define FALSE 0
 #define ALLOCATION_ERROR -1
-#define MAX (a, b)(a > b ? a : b)
+#define MAX(a, b) (a > b ? a : b)
 
 typedef int BOOL;
 /*Structs*/

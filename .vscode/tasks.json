@@ -15,8 +15,8 @@
                 "${fileDirname}\\captureFunctions.c",
                 "${fileDirname}\\testFunctions.c",
                 "${fileDirname}\\printingFunctions.c",
-                "${fileDirname}\\functions2.c",
-                "${fileDirname}\\functions3.c",
+                "${fileDirname}\\function2.c",
+                "${fileDirname}\\function3.c",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
