@@ -4,7 +4,7 @@ void PrintOpener();
 void fillStartingBoard(Board *board);
 int main()
 {
-    // Opener- Checkers game
+	// Opener- Checkers game
     PrintOpener();
     // Fill board
     Board startingBoard = {
@@ -22,8 +22,8 @@ int main()
     printBoard(startingBoard);
     printf("\n\n\n");
 
-    // for end cases
-    Board testBoard = {
+    // for end cases 1
+    /*Board testBoard = {
         {' ', 'B', ' ', 'T', ' ', ' ', ' ', ' '},
         {' ', ' ', 'T', ' ', ' ', ' ', 'T', ' '},
         {' ', 'T', ' ', 'T', ' ', 'T', ' ', ' '},
@@ -32,8 +32,20 @@ int main()
         {' ', ' ', 'B', ' ', 'T', ' ', ' ', ' '},
         {' ', 'B', ' ', ' ', ' ', ' ', ' ', 'B'},
         {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-    };
-    printBoard(testBoard);
+    };*/
+	
+	// for end cases 2
+	Board testBoard = {
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', 'T', ' ', ' ', ' ', ' ', ' '},
+		{' ', 'B', ' ','B', ' ', 'T', ' ', ' '},
+		{'T', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', 'B', ' ', 'T', ' ', ' '},
+		{'B', ' ', 'T', ' ', 'B', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', 'B'},
+		{' ', ' ', 'T', ' ', ' ', ' ', ' ', ' '},
+	};
+	printBoard(testBoard);
     printf("\n\n\n");
 
     checkersPos src1, src2;
@@ -41,8 +53,10 @@ int main()
     src1.row = 'F';
     src1.col = '1';
     // test2- bottom-middleside
-    src2.row = 'F';
-    src2.col = '3';
+		// test2- bottom-middleside
+	src2.row = 'E';
+	src2.col = '6';
+
 
     printf("src1 coordinate: %c X %c \n , src2 coordinate: %c X %c\n", src1.row, src1.col, src2.row, src2.col);
 
@@ -55,6 +69,14 @@ int main()
 
     printTreeInOrder(movesTree1);
     printTreeInOrder(movesTree2);
-    system("pause"); // Need to be deleted
-    return 0;
+    
+	// Function 2 
+	SingleSourceMovesList  *lst1, *lst2;
+	printList(lst1 = FindSingleSourceOptimalMove(movesTree1));
+	printList(lst2 = FindSingleSourceOptimalMove(movesTree2));
+
+	free(movesTree1);
+	free(movesTree2);
+	freeList(lst1);
+	freeList(lst2);
 }

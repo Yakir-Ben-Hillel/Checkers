@@ -73,9 +73,13 @@ BOOL isCellFree(Board board, checkersPos *soldier);
 
 /*Printing*/
 void printTreeInOrder(SingleSourceMovesTree *movesTree);
-void printTreeBoardInOrderAux(SingleSourceMovesTreeNode *source);
-void printTreeSourcesInOrderAux(SingleSourceMovesTreeNode *source);
 void printBoard(Board board);
+// void printTreeBoardInOrderAux(SingleSourceMovesTreeNode *source);
+
+void printTreeInOrderAux(SingleSourceMovesTreeNode *source);
+// void printTreeSourcesInOrderAux(SingleSourceMovesTreeNode *source);
+
+// void printTreeSourcesInOrderAux(SingleSourceMovesTreeNode *source);
 void PrintOpener();
 
 /*Printing*/
