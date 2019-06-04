@@ -30,9 +30,7 @@ void freeList(SingleSourceMovesList* lst)
 }
 void makeEmptyList(SingleSourceMovesList *lst)
 {
-	lst->head = lst->tail = NULL; // Initializing pointers to haid and tail to NULL
-	lst->head->position = NULL;
-	lst->head->next = NULL;
+	lst->head = lst->tail = NULL; // Initializing pointers to head and tail to NULL
 }
 BOOL isEmptyList(SingleSourceMovesList* lst)
 {
@@ -79,8 +77,8 @@ void insertNodeToHead(SingleSourceMovesList* lst, SingleSourceMovesListCell *new
 
 void freeLoList(MultipleSingleSourceMovesList* Lol)
 {
-	MultipleSourceMovesListCell *next = NULL , *currentLol = NULL;
-	
+	MultipleSourceMovesListCell *next = NULL, *currentLol = NULL;
+
 	// Initializing pointers to nodes
 	currentLol = Lol->head;
 
@@ -95,7 +93,7 @@ void freeLoList(MultipleSingleSourceMovesList* Lol)
 MultipleSourceMovesListCell* createLolNode(SingleSourceMovesList* singleSourceMovesList, MultipleSourceMovesListCell *next) // Creates a node of List of lists 
 {
 	MultipleSourceMovesListCell* node = (MultipleSourceMovesListCell*)malloc(sizeof(MultipleSourceMovesListCell)); // Allocate the cell
-	checkAllocation(node); 
+	checkAllocation(node);
 	node->Single_Source_moves_list = singleSourceMovesList; // Updating the list recieved to be the cell in the multiple Source List cell
 	// Updating pointer to the next cell
 	node->next = next;

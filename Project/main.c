@@ -38,12 +38,12 @@ int main()
 	Board testBoard = {
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', 'T', ' ', ' ', ' ', ' ', ' '},
-		{' ', 'B', ' ','B', ' ', 'T', ' ', ' '},
-		{'T', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-		{' ', ' ', ' ', 'B', ' ', 'T', ' ', ' '},
-		{'B', ' ', 'T', ' ', 'B', ' ', ' ', ' '},
+		{' ', ' ', ' ','T', ' ', 'T', ' ', ' '},
+		{'T', ' ', 'T', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', 'B', ' ', ' '},
+		{'B', ' ', 'T', ' ', 'T', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', 'B'},
-		{' ', ' ', 'T', ' ', ' ', ' ', ' ', ' '},
+		{' ', ' ', 'B', ' ', ' ', ' ', 'B', ' '},
 	};
 	printBoard(testBoard);
     printf("\n\n\n");
@@ -54,8 +54,8 @@ int main()
     src1.col = '1';
     // test2- bottom-middleside
 		// test2- bottom-middleside
-	src2.row = 'E';
-	src2.col = '6';
+	src2.row = 'H';
+	src2.col = '7';
 
 
     printf("src1 coordinate: %c X %c \n , src2 coordinate: %c X %c\n", src1.row, src1.col, src2.row, src2.col);
@@ -69,7 +69,7 @@ int main()
 
     printTreeInOrder(movesTree1);
     printTreeInOrder(movesTree2);
-    
+	    
 	// Function 2 
 	SingleSourceMovesList  *lst1, *lst2;
 	printList(lst1 = FindSingleSourceOptimalMove(movesTree1));
