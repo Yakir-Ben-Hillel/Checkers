@@ -55,7 +55,7 @@ void printTreeSourcesInOrderAux(SingleSourceMovesTreeNode *source)
     else
     {
         printTreeSourcesInOrderAux(source->next_move[0]);
-        printf("Amount of Captures in this position is:%d %c%c\n ", source->total_captures_so_far, source->pos->row, source->pos->col);
+        printf("Amount of Captures in this position is:%hu %c%c\n ", source->total_captures_so_far, source->pos->row, source->pos->col);
         printTreeSourcesInOrderAux(source->next_move[1]);
     }
 }
@@ -65,10 +65,22 @@ void printList(SingleSourceMovesList *lst)
 	printf("Printing the best Moves List.\n");
 	while (current != NULL)
 	{
-		printf("Amount of Captures in this position is:%d %c%c\n ",current->captures,current->position->row,current->position->col); // Printing the coordinates of the current position
+		printf("Amount of Captures in this position is:%hu %c%c\n ",current->captures,current->position->row,current->position->col); // Printing the coordinates of the current position
 		current = current->next; // Updating the "pointer" to cell in the list
 	}
 	printf("\n\n");
+}
+
+void printLoList(MultipleSingleSourceMovesList *Lol) // Prints the list of single source move
+{
+	MultipleSourceMovesListCell *currentListP = Lol->head;
+
+	while (currentListP != NULL)
+	{
+		printList(currentListP->Single_Source_moves_list);
+		printf("\n");
+        currentListP=currentListP->next;
+	}
 }
 
 void fillStartingBoard(Board *board)

@@ -69,7 +69,7 @@ void insertListToHead(SingleSourceMovesList **lst, SingleSourceMovesList *newHea
 
 void freeLoList(MultipleSingleSourceMovesList *Lol)
 {
-	MultipleSourceMovesListCell *next = NULL, *currentLol = NULL;
+	MultipleSourceMovesListCell*currentLol = NULL;
 
 	// Initializing pointers to nodes
 	currentLol = Lol->head;
@@ -110,22 +110,13 @@ BOOL isEmptyLoList(MultipleSingleSourceMovesList *Lol) // Determines whether the
 {
 	return (Lol->head == NULL);
 }
-void makeEmptyLoList(MultipleSingleSourceMovesList *Lol) // Makes empty list
+void makeEmptyLoList(MultipleSingleSourceMovesList **Lol) // Makes empty list
 {
-	Lol->head = Lol->tail = NULL; // Initializing pointers to head and tail to NULL
-	Lol->head->next = NULL;
+	*Lol=(MultipleSingleSourceMovesList *)malloc(sizeof(MultipleSingleSourceMovesList));
+	checkAllocation(*Lol);
+	(*Lol)->head = (*Lol)->tail = NULL; // Initializing pointers to head and tail to NULL
 }
 
-void printLoList(MultipleSingleSourceMovesList *Lol) // Prints the list of single source move
-{
-	MultipleSourceMovesListCell *currentListP = Lol->head;
-
-	while (currentListP != NULL)
-	{
-		printList(currentListP->Single_Source_moves_list);
-		printf("\n");
-	}
-}
 
 /* 
 void fillStartingBoard(Board *board)
