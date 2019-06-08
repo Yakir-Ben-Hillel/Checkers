@@ -51,9 +51,12 @@ static void FindSingleSourceOptimalMoveAux(SingleSourceMovesTreeNode *source, Si
 		// Check which move is better from the 'returned' options of sub tree right and sub tree right
 	}
 }
+
+
+
 static void insertBestMove(SingleSourceMovesList **OptimalMoveList, SingleSourceMovesList **leftList, SingleSourceMovesList **rightList,
 						   SingleSourceMovesTreeNode *source)
-{
+{//Check which moves are valid and insert the best move possible.
 	SingleSourceMovesListCell *node; // Initialized due to security reasons
 
 	if ((*leftList)->head == NULL)

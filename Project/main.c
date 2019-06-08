@@ -76,9 +76,12 @@ int main()
     lst2 = FindSingleSourceOptimalMove(movesTree2);
  	printList(lst1);
 	printList(lst2);
-
+    MultipleSingleSourceMovesList *mulLst;
+    mulLst=FindAllPossiblePlayerMoves(testBoard,'T');
+    printLoList(mulLst);
 	free(movesTree1);
 	free(movesTree2);
 	freeList(lst1);
 	freeList(lst2);
+    freeLoList(mulLst);
 }
