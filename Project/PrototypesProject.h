@@ -1,13 +1,16 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #define BOARD_SIZE 8
 
 #define TRUE 1
 #define FALSE 0
 #define ALLOCATION_ERROR -1
 #define MAX(a, b) (a > b ? a : b)
+#define SIZE_OF_A_BYTE 8
 
 typedef int BOOL;
 
@@ -126,3 +129,12 @@ void printLoList(MultipleSingleSourceMovesList *Lol);     // Prints the list of 
 
 // Function 4 
 void Turn(Board board, player player);
+// Function 5
+void StoreBoard(Board board, char *filname); // Save the current board into a binary file
+
+// Files -general
+void checkFileOperation(FILE* fpi); // Checks whether there's an error with the files operation
+
+// Function 6 
+void LoadBoard(char* fileName, Board board);
+

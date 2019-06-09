@@ -77,6 +77,17 @@ int main()
 	printList(lst2);
 	MultipleSingleSourceMovesList *mulLst;
 	mulLst = FindAllPossiblePlayerMoves(testBoard, 'B');
+	
+	
+	// Debugging//
+	printf("NOW***********************************bufor*******************************************NOW\n");
+	printBoard(testBoard);  // Debugging
+	StoreBoard(testBoard, "save1.bin");
+	LoadBoard("save1.bin", testBoard);
+	printBoard(testBoard); // Debugging
+	printf("NOW*************************************achor*****************************************NOW\n");
+	// Debugging//
+
 	printLoList(mulLst);
 	Turn(testBoard, 'B');
 	freeTree(movesTree1);
