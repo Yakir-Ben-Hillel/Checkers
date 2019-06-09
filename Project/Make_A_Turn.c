@@ -13,17 +13,17 @@ static unsigned short findPlaceofBestTurn(MultipleSingleSourceMovesList *mul_lis
 {
     MultipleSourceMovesListCell *ptr;
     unsigned short max = 0;
-    unsigned short counter = 0;
+    unsigned short place=0;
     ptr = mul_list->head;
     while (ptr != NULL)
     {
         if (ptr->Single_Source_moves_list->tail->captures > max)
         {
             max = ptr->Single_Source_moves_list->tail->captures;
+            place++;
         }
         ptr=ptr->next;
-        counter++;
     }
-    return counter;
+    return place;
 }
 //Just Started to write it down.

@@ -9,7 +9,7 @@ SingleSourceMovesList *FindSingleSourceOptimalMove(SingleSourceMovesTree *movesT
 	SingleSourceMovesList *OptimalMoveList = {NULL}; // Defined as pointer to avoid return of a local variable
 	makeEmptyList(&OptimalMoveList);				 // Making an empty list
 													 // Count Captures of returned list.
-	if (movesTree->source == NULL)					 // Empty tree case - design by contract- not suppose to happen
+	if (movesTree == NULL)					 // Empty tree case - design by contract- not suppose to happen
 	{
 		return NULL;
 	}

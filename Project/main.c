@@ -54,8 +54,8 @@ int main()
     src1.col = '1';
     // test2- bottom-middleside
 		// test2- bottom-middleside
-	src2.row = 'E';
-	src2.col = '6';
+	src2.row = 'H';
+	src2.col = '7';
 
 
     printf("src1 coordinate: %c X %c \n , src2 coordinate: %c X %c\n", src1.row, src1.col, src2.row, src2.col);
@@ -77,7 +77,7 @@ int main()
  	printList(lst1);
 	printList(lst2);
     MultipleSingleSourceMovesList *mulLst;
-    mulLst=FindAllPossiblePlayerMoves(testBoard,'T');
+    mulLst=FindAllPossiblePlayerMoves(testBoard,'B');
     printLoList(mulLst);
 	free(movesTree1);
 	free(movesTree2);
