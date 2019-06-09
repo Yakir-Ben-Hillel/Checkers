@@ -36,7 +36,7 @@ int main()
 	
 	// for end cases 2
 	Board testBoard = {
-		{' ', ' ', ' ', 'B', ' ', ' ', ' ', ' '},
+		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{'B', ' ', 'T', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ',' ', ' ', 'T', ' ', ' '},
 		{'T', ' ', 'T', ' ', 'T', ' ', 'T', ' '},
@@ -79,6 +79,7 @@ int main()
     MultipleSingleSourceMovesList *mulLst;
     mulLst=FindAllPossiblePlayerMoves(testBoard,'B');
     printLoList(mulLst);
+    Turn(testBoard,'B');
 	free(movesTree1);
 	free(movesTree2);
 	freeList(lst1);
