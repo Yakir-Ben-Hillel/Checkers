@@ -1,13 +1,12 @@
 #include "PrototypesProject.h"
 static void updateTableNoCapture(Board board, checkersPos *src, checkersPos *options, player pl, int direction);
-static void captureFromoptionZero(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures);
-static void captureFromoptionOne(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures);
+static void captureFromoptionZero(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned short *countCaptures);
+static void captureFromoptionOne(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned short *countCaptures);
 // Update the board based on possible near moves and captions
-static BOOL isThereACapture(checkersPos *options, checkersPos *captures, int *ind); // Determines whether there's an option of a move with a
 																					// capture between the given captures, if exist
 																					// Return true in case there's a match between a capture and a move
 
-void handleBoardChange(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures)
+void handleBoardChange(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned short *countCaptures)
 {
 	int Ind = direction; // Index for the array of captures, Initialized in case there's a matched capture
 
@@ -32,7 +31,7 @@ void handleBoardChange(Board board, checkersPos *src, player pl, int direction, 
 	}
 }
 
-static BOOL isThereACapture(checkersPos *options, checkersPos *captures, int *ind)
+BOOL isThereACapture(checkersPos *options, checkersPos *captures, int *ind)
 {
 	// Check for the first potential capture
 	// Checks wether one of the captions matches the move option
@@ -51,7 +50,7 @@ static BOOL isThereACapture(checkersPos *options, checkersPos *captures, int *in
 	return FALSE;
 }
 
-static void captureFromoptionZero(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures)
+static void captureFromoptionZero(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned short *countCaptures)
 { //Checks  if there is a capture in option[0].
 	if (((abs((options[0].row) - (captures[0].row))) == 1) && ((abs((options[0].col) - (captures[0].col))) == 1))
 	{
@@ -69,7 +68,7 @@ static void captureFromoptionZero(Board board, checkersPos *src, player pl, int 
 		(*countCaptures)++;
 	}
 }
-static void captureFromoptionOne(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned int *countCaptures)
+static void captureFromoptionOne(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned short *countCaptures)
 { //Checks if there is a capture in option[1].
 	if (((abs((options[1].row) - (captures[0].row))) == 1) && ((abs((options[1].col) - (captures[0].col))) == 1))
 	{
