@@ -1,14 +1,15 @@
+
 #include "PrototypesProject.h"
 static void FindSingleSourceOptimalMoveAux(SingleSourceMovesTreeNode *source, SingleSourceMovesList **OptimalMoveList);
 static void insertBestMove(SingleSourceMovesList **OptimalMoveList, SingleSourceMovesList **leftList, SingleSourceMovesList **rightList,
-						   SingleSourceMovesTreeNode *source);
+	SingleSourceMovesTreeNode *source);
 
 SingleSourceMovesList *FindSingleSourceOptimalMove(SingleSourceMovesTree *movesTree)
 {
-	SingleSourceMovesList *OptimalMoveList = {NULL}; // Defined as pointer to avoid return of a local variable
-	makeEmptyList(&OptimalMoveList);				 // Making an empty list
-													 // Count Captures of returned list.
-	if (movesTree->source == NULL)					 // Empty tree case - design by contract- not suppose to happen
+	SingleSourceMovesList *OptimalMoveList = makeEmpty_List(); // Defined as pointer to avoid return of a local variable
+	// Making an empty list 
+	// Count Captures of returned list.
+	if (movesTree == NULL)					 // Empty tree case - design by contract- not suppose to happen
 	{
 		return NULL;
 	}
@@ -21,11 +22,10 @@ SingleSourceMovesList *FindSingleSourceOptimalMove(SingleSourceMovesTree *movesT
 }
 static void FindSingleSourceOptimalMoveAux(SingleSourceMovesTreeNode *source, SingleSourceMovesList **OptimalMoveList)
 {
-	SingleSourceMovesList *leftList = {NULL}, *rightList = {NULL};
+	SingleSourceMovesList *leftList = makeEmpty_List(), *rightList = makeEmpty_List();
 	SingleSourceMovesListCell *node;
 
-	makeEmptyList(&leftList);
-	makeEmptyList(&rightList); // Making empty lists for the sub trees
+	 // Making empty lists for the sub trees
 
 	if ((source->next_move[0] == NULL) && (source->next_move[1] == NULL)) // A leaf - a single move tree- it is the optimal
 	{																	  //Inserting the new Leaf into the list.
@@ -54,7 +54,7 @@ static void FindSingleSourceOptimalMoveAux(SingleSourceMovesTreeNode *source, Si
 
 
 static void insertBestMove(SingleSourceMovesList **OptimalMoveList, SingleSourceMovesList **leftList, SingleSourceMovesList **rightList,
-						   SingleSourceMovesTreeNode *source)
+	SingleSourceMovesTreeNode *source)
 {//Check which moves are valid and insert the best move possible.
 	SingleSourceMovesListCell *node; // Initialized due to security reasons
 
@@ -86,4 +86,3 @@ static void insertBestMove(SingleSourceMovesList **OptimalMoveList, SingleSource
 		freeList(*leftList);//No use for leftList anymore.
 	}
 }
-
