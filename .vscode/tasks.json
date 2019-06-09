@@ -10,13 +10,9 @@
             "args": [
                 "-Wall",
                 "-g",
-                "${fileDirname}\\main.c",
-                "${fileDirname}\\buildTreeFunctions.c",
-                "${fileDirname}\\captureFunctions.c",
-                "${fileDirname}\\testFunctions.c",
-                "${fileDirname}\\printingFunctions.c",
+                "${fileDirname}//*.c",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                "${fileDirname}\\main.exe"
             ],
             "options": {
                 "cwd": "C:\\MinGW\\bin"
