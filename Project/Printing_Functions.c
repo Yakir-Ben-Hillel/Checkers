@@ -35,6 +35,7 @@ void printTreeInOrder(SingleSourceMovesTree *movesTree)
         printf("The tree Sources are:\n");
         printTreeSourcesInOrderAux(movesTree->source);
         printf("\n");
+        
     }
 }
 void printTreeBoardInOrderAux(SingleSourceMovesTreeNode *source)

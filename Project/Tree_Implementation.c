@@ -94,4 +94,4 @@ void handleLeaf(SingleSourceMovesTree *baseTree, Board board, player pl, checker
 	makeLeaf(baseTree->source, src);
 	initializeBoardOfPlayer(board, pl, &baseTree->source->board, *src, options, captures); // Initializing board the current root
 }
-void freeTree()
+//void freeTree()

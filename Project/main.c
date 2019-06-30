@@ -1,5 +1,6 @@
 #include "PrototypesProject.h"
-
+#include <stdio.h>
+#define TRUE 1
 void PrintOpener();
 void fillStartingBoard(Board *board);
 int main()
@@ -19,6 +20,7 @@ int main()
     };
 
     printf("Starting Board\n");
+    
     printBoard(startingBoard);
     printf("\n\n\n");
 
