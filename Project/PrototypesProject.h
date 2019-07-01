@@ -138,3 +138,7 @@ void checkFileOperation(FILE* fpi); // Checks whether there's an error with the 
 // Function 6 
 void LoadBoard(char* fileName, Board board);
 
+// Function 7
+void PlayGame(Board board, player starting_player); 
+
+
