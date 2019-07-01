@@ -21,6 +21,7 @@
                 "${fileDirname}\\Build_Tree.c",
                 "${fileDirname}\\Build_Mult_List.c",
                 "${fileDirname}\\Build_List.c",
+                "${fileDirname}\\PlayGame.c",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],

@@ -95,5 +95,4 @@ int main()
 	freeList(lst1);
 	freeList(lst2);
 	freeLoList(mulLst);
-	system("pause");
 }
