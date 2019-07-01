@@ -1,4 +1,10 @@
 #include "PrototypesProject.h"
+#define NUM_OF_CHAR_BORDER 9 // Number of couples of '+-' for constructing the border
+
+static void printBorderRow(); // Prints the border of a row after each row 
+static void printLineOfColumns(); // Prints the row of numbers indicates the number of a column
+static void printColumnOfLetters(char Letter); // Sending The letter of the row
+
 
 void PrintOpener()
 {
@@ -14,16 +20,53 @@ void PrintOpener()
 void printBoard(Board board) // debugging purpose only
 {
 	printf("\n\n");
-	int i, j;
+	int i=0, j=0;
+	
 	for (i = 0; i < 8; i++)
 	{
+		printBorderRow(); // Prints the border between the rows of the table
+		if (i == 0 && j == 0)
+		{
+			printLineOfColumns();
+			printBorderRow();
+		}
 		for (j = 0; j < 8; j++)
 		{
-			printf("%c||", board[i][j]);
+			if (j == 0)
+				printColumnOfLetters( (char) ('A' + i) ); // Sending The letter of the row
+			printf("|%c", board[i][j]);
 		}
-		printf("\n");
+		printf("|\n");
 	}
+	printBorderRow(); // Prints the corder of the bottom of the table
+	printf("\n\n");
 }
+static void printColumnOfLetters(char Letter)
+{
+	printf("|%c", Letter);
+}
+static void printLineOfColumns()
+{
+	int i = 0; 
+	
+	for (i = 0; i < NUM_OF_CHAR_BORDER; i++)
+	{
+		if (i == 0 )
+			printf("+ ");
+		else
+			printf("|%d", i); // Printing the number of column
+	}
+	printf("|\n");
+}
+static void printBorderRow() // Prints the border of a row after each row 
+{
+	int i = 0;
+
+	for (i = 0; i < NUM_OF_CHAR_BORDER; i++)
+		printf("+-");
+	printf("+\n"); // Printing the end of the border and its last character
+}
+
 void printTreeInOrder(SingleSourceMovesTree *movesTree)
 {
 	if (movesTree == NULL)

@@ -34,7 +34,7 @@ int main()
 	};*/
 
 	// for end cases 2
-	Board testBoard = {
+		Board testBoard = {
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
 		{'B', ' ', 'T', ' ', ' ', ' ', ' ', ' '},
 		{' ', ' ', ' ',' ', ' ', 'T', ' ', ' '},
@@ -79,20 +79,21 @@ int main()
 	mulLst = FindAllPossiblePlayerMoves(testBoard, 'B');
 	
 	
-	// Debugging//
-	printf("NOW***********************************bufor*******************************************NOW\n");
 	printBoard(testBoard);  // Debugging
 	StoreBoard(testBoard, "save1.bin");
 	LoadBoard("save1.bin", testBoard);
 	printBoard(testBoard); // Debugging
-	printf("NOW*************************************achor*****************************************NOW\n");
-	// Debugging//
+	printLoList(mulLst); // Debugging
 
-	printLoList(mulLst);
-	Turn(testBoard, 'B');
+	// Debugging ********************************************  Debugging// 
+	PlayGame(testBoard, 'T');
+	PlayGame(startingBoard, 'B');
+	printBoard(startingBoard);
+	// Debugging ********************************************  Debugging// 
 	freeTree(movesTree1);
 	freeTree(movesTree2);
 	freeList(lst1);
 	freeList(lst2);
 	freeLoList(mulLst);
+	system("pause");
 }
