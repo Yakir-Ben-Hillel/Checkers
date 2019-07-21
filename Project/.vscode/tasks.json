@@ -15,11 +15,9 @@
                 "-o",
                 "main"
             ],
-            "problemMatcher":{
-            "base": "$gcc",
-            "fileLocation":["absolute"]
+            "problemMatcher": {
+                "base": "$gcc",
             },
-            
             "group": {
                 "kind": "build",
                 "isDefault": true

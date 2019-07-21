@@ -53,7 +53,6 @@ static void FindSingleSourceOptimalMoveAux(SingleSourceMovesTreeNode *source, Si
 }
 
 
-
 static void insertBestMove(SingleSourceMovesList **OptimalMoveList, SingleSourceMovesList **leftList, SingleSourceMovesList **rightList,
 						   SingleSourceMovesTreeNode *source)
 {//Check which moves are valid and insert the best move possible.

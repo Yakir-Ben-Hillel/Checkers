@@ -1,6 +1,17 @@
 {
     "files.associations": {
         "*.cpp": "cpp",
-        "header3.h": "c"
-    }
+        "header3.h": "c",
+        "cstdio": "cpp",
+        "cstdlib": "cpp",
+        "prototypesproject.h": "c",
+        "stdlib.h": "c",
+        "stdbool.h": "c",
+        "cstdbool": "c",
+        "c++config.h": "c",
+        "string.h": "c",
+        "_mingw.h": "c",
+        "stdio.h": "c"
+    },
+    "git.ignoreLimitWarning": true
 }
