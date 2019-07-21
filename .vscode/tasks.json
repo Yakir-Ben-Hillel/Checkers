@@ -6,16 +6,16 @@
         {
             "type": "shell",
             "label": "gcc.exe build active file",
-            "command": "C:\\MinGW\\bin\\gcc.exe",
+            "command": "gcc",
             "args": [
                 "-Wall",
                 "-g",
                 "${fileDirname}//*.c",
                 "-o",
-                "${fileDirname}\\main.exe"
+                "${fileDirname}\\main"
             ],
             "options": {
-                "cwd": "C:\\MinGW\\bin"
+                "cwd": "/usr/bin"
             },
             "group": {
                 "kind": "build",
