@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "gcc.exe build and debug active file",
+            "name": "gcc build and debug active file",
             "type": "cppdbg",
             "request": "launch",
             "program": "/home/yakir/Documents/GitHub/Assignments/Projectmain",
@@ -23,7 +23,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "gcc.exe build active file"
+            "preLaunchTask": "gcc build active file"
         }
     ]
 }
