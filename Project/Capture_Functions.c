@@ -10,7 +10,7 @@ void handleBoardChange(Board board, checkersPos *src, player pl, int direction, 
 {
 	int Ind = direction; // Index for the array of captures, Initialized in case there's a matched capture
 
-	if ((isThereACapture(options, captures, &Ind)))
+	if ((isThereACapture(captures, &Ind)))
 	{
 		if ((direction == 0) && (Ind == 0))
 		{
@@ -31,7 +31,7 @@ void handleBoardChange(Board board, checkersPos *src, player pl, int direction, 
 	}
 }
 
-BOOL isThereACapture(checkersPos *options, checkersPos *captures, int *ind)
+BOOL isThereACapture(checkersPos *captures, int *ind)
 {
 	// Check for the first potential capture
 	// Checks wether one of the captions matches the move option

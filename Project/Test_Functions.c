@@ -55,6 +55,7 @@ static void testsForTLeft(Board board, checkersPos *src, checkersPos *options, c
 			}
 		}
 	}
+	free(soldier);
 }
 static void testsForTRight(Board board, checkersPos *src, checkersPos *options, checkersPos *captures)
 {
@@ -89,6 +90,7 @@ static void testsForTRight(Board board, checkersPos *src, checkersPos *options, 
 			}
 		}
 	}
+	free(soldier);
 }
 static void testsForB(Board board, checkersPos *src, checkersPos *options, checkersPos *captures)
 {
@@ -135,6 +137,7 @@ static void testsForBLeft(Board board, checkersPos *src, checkersPos *options, c
 			}
 		}
 	}
+	free(soldier);
 }
 static void testsForBRight(Board board, checkersPos *src, checkersPos *options, checkersPos *captures)
 {
@@ -171,6 +174,7 @@ static void testsForBRight(Board board, checkersPos *src, checkersPos *options, 
 			}
 		}
 	}
+	free(soldier);
 }
 
 BOOL isCellFree(Board board, checkersPos *soldier)

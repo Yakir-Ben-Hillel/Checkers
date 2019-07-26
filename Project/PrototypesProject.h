@@ -3,6 +3,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
 
 #define BOARD_SIZE 8
 
@@ -72,7 +78,7 @@ void fillCaptures(checkersPos *soldier, checkersPos *captures, int direction);
 //Fill
 
 /*Tests*/
-BOOL isThereACapture(checkersPos *options, checkersPos *captures, int *ind); // Determines whether there's an option of a move with a
+BOOL isThereACapture(checkersPos *captures, int *ind); // Determines whether there's an option of a move with a
 void soldierStatus(Board board, checkersPos *src, player pl, checkersPos *options, checkersPos *captures); //Added option for player(inserting B OR T).
 BOOL isCellFree(Board board, checkersPos *soldier);
 /*Tests*/
@@ -85,6 +91,8 @@ void printBoard(Board board);
 void printTreeBoardInOrderAux(SingleSourceMovesTreeNode *source);
 void printTreeInOrderAux(SingleSourceMovesTreeNode *source);
 void printTreeSourcesInOrderAux(SingleSourceMovesTreeNode *source);
+void PrintFile(char *fname);
+
 
 // void printTreeSourcesInOrderAux(SingleSourceMovesTreeNode *source);
 void PrintOpener();
@@ -139,6 +147,7 @@ void checkFileOperation(FILE* fpi); // Checks whether there's an error with the 
 void LoadBoard(char* fileName, Board board);
 
 // Function 7
+void Menu(Board board);
 void PlayGame(Board board, player starting_player); 
 
 

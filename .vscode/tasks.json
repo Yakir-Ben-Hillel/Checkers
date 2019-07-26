@@ -9,14 +9,16 @@
             "command": "gcc",
             "args": [
                 "-Wall",
+                "-Werror",
                 "-g",
                 "${fileDirname}//*.c",
                 "-o",
-                "${fileDirname}\\main"
+                "~/Documents/GitHub/Assignments/Projectmain"
             ],
             "options": {
                 "cwd": "/usr/bin"
             },
+            "problemMatcher": "$gcc",
             "group": {
                 "kind": "build",
                 "isDefault": true

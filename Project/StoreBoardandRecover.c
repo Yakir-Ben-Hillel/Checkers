@@ -9,7 +9,7 @@
 #define MASK_MOVES_2_LEFT(TYPE)  ( (TYPE) << (2) )
 #define NUM_OF_BITS_ROW		(SIZE_OF_A_BYTE * (2))
 
-void intializeLsbMask(unsigned char positionContent, unsigned char *MaskAdress, int countCouplesOfBits); // Initialize the couple bits (LSB) of the mask based on the position's content
+void initializeLsbMask(unsigned char positionContent, unsigned char *MaskAddress, int countCouplesOfBits); // Initialize the couple bits (LSB) of the mask based on the position's content
 static void saveArrToFile(char * filename, unsigned  char* zeroMasksArr, int numOfByteInd); // Saves the content of board to a binary file from an array of initialized bytes
 unsigned char getCharBy2Bit(unsigned short int secluded_2_LSB); // Returns the right content of position based on coding of the saving process of the board to a binary file
 
@@ -25,7 +25,7 @@ void StoreBoard(Board board, char *filename)
 	{
 		for (j = 0; j < BOARD_SIZE; j++) // Scanning the columns 
 		{
-			intializeLsbMask(board[i][j], zeroMasksArr + numOfByteInd, countCouplesOfBits); // Initialize array of bytes
+			initializeLsbMask(board[i][j], zeroMasksArr + numOfByteInd, countCouplesOfBits); // Initialize array of bytes
 			countCouplesOfBits += 2; // Counts a couple of bits 
 			if (countCouplesOfBits == SIZE_OF_A_BYTE) // Updating the number of bytes that has been converted already
 			{
@@ -35,6 +35,7 @@ void StoreBoard(Board board, char *filename)
 		}
 	}
 	saveArrToFile(filename, zeroMasksArr, numOfByteInd);
+	free(zeroMasksArr);
 }
 static void saveArrToFile(char * filename, unsigned  char* zeroMasksArr, int numOfByteInd)
 {
@@ -45,32 +46,32 @@ static void saveArrToFile(char * filename, unsigned  char* zeroMasksArr, int num
 		fwrite(&zeroMasksArr[i], sizeof(unsigned char), 1, fpi);
 	fclose(fpi);
 }
-void intializeLsbMask(unsigned char positionContent, unsigned char *MaskAdress, int countCouplesOfBits)
+void initializeLsbMask(unsigned char positionContent, unsigned char *MaskAddress, int countCouplesOfBits)
 {
 	// There's a need to move the couple of bits after initializing -
 	// excluding the move of bits in the forth initialization of the mask in each byte
 	switch (positionContent)
 	{
-		case'B': // Bottom player
+		case 'B': // Bottom player
 		{
 			if (countCouplesOfBits < SIZE_OF_A_BYTE - 2)
 			{
-				(*MaskAdress) |= MASK_LSB_B;
-				*MaskAdress = MASK_MOVES_2_LEFT((*MaskAdress)); // Moving 2 bits to the left
+				(*MaskAddress) |= MASK_LSB_B;
+				*MaskAddress = MASK_MOVES_2_LEFT((*MaskAddress)); // Moving 2 bits to the left
 			}
 			else
-				(*MaskAdress) |= MASK_LSB_B;
+				(*MaskAddress) |= MASK_LSB_B;
 			break;
 		}
-		case'T': // Top player
+		case 'T': // Top player
 		{
 			if (countCouplesOfBits < SIZE_OF_A_BYTE - 2)
 			{
-				(*MaskAdress) |= MASK_LSB_T;
-				*MaskAdress = MASK_MOVES_2_LEFT((*MaskAdress)); // Moving 2 bits to the left
+				(*MaskAddress) |= MASK_LSB_T;
+				*MaskAddress = MASK_MOVES_2_LEFT((*MaskAddress)); // Moving 2 bits to the left
 			}
 			else
-				(*MaskAdress) |= MASK_LSB_T;
+				(*MaskAddress) |= MASK_LSB_T;
 			break;
 
 		}
@@ -78,11 +79,11 @@ void intializeLsbMask(unsigned char positionContent, unsigned char *MaskAdress, 
 		{
 			if (countCouplesOfBits < SIZE_OF_A_BYTE -2)
 			{
-				(*MaskAdress) |= MASK_LSB_EMPTY; // For readiness causes
-				*MaskAdress = MASK_MOVES_2_LEFT((*MaskAdress)); // Moving 2 bits to the left
+				(*MaskAddress) |= MASK_LSB_EMPTY; // For readiness causes
+				*MaskAddress = MASK_MOVES_2_LEFT((*MaskAddress)); // Moving 2 bits to the left
 			}
 			else
-				(*MaskAdress) |= MASK_LSB_EMPTY; // For readiness causes
+				(*MaskAddress) |= MASK_LSB_EMPTY; // For readiness causes
 			break;
 		}
 	}
@@ -100,7 +101,6 @@ void LoadBoard(char* fileName, Board board)
 	FILE* fpi = fopen(fileName, "rb"); // Opening the binary file for reading and constructing the board
 	checkFileOperation(fpi);
 	unsigned char positionMaskFirst = 0x00, positionMaskSecond = 0x00; // seclude_mask- 1100 0000 - unsigned to prevent 1's while moving to the right
-	int numOfByte = 0;
 	unsigned short int rowMaskPosition=0x0000 , seclude2_MSB_Mask = 0xC000; // 0000 0000 0000 0000 , 1100 0000 0000 0000 
 	int i = 0, j = 0, move = 0;
 	for (i = 0; i < BOARD_SIZE; i++) // Scanning the rows

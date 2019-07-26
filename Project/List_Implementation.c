@@ -16,10 +16,11 @@ void freeList(SingleSourceMovesList *lst)
 		free(current);			 // Free the current cell
 		current = next;			 // Promoting the temp index to a cell in the list
 	}
+	free(lst);
 }
-SingleSourceMovesList* makeEmpty_List()
+SingleSourceMovesList *makeEmpty_List()
 {
-	SingleSourceMovesList* lst = (SingleSourceMovesList *)malloc(sizeof(SingleSourceMovesList));
+	SingleSourceMovesList *lst = (SingleSourceMovesList *)malloc(sizeof(SingleSourceMovesList));
 	checkAllocation(lst);
 	lst->head = lst->tail = NULL; // Initializing pointers to head and tail to NULL
 	return lst;
@@ -31,7 +32,8 @@ BOOL isEmptyList(SingleSourceMovesList *lst)
 }
 SingleSourceMovesListCell *createNode(checkersPos *pos, SingleSourceMovesListCell *next)
 {
-	SingleSourceMovesListCell *node = (SingleSourceMovesListCell *)malloc(sizeof(SingleSourceMovesListCell)); // Allocate the cell
+	SingleSourceMovesListCell *node;
+	node = (SingleSourceMovesListCell *)malloc(sizeof(SingleSourceMovesListCell)); // Allocate the cell
 	checkAllocation(node);
 	node->position = (checkersPos *)malloc(sizeof(checkersPos));
 	checkAllocation(node->position);
@@ -69,7 +71,7 @@ void insertListToHead(SingleSourceMovesList **lst, SingleSourceMovesList *newHea
 }
 void freeLoList(MultipleSingleSourceMovesList *Lol)
 {
-	MultipleSourceMovesListCell*currentLol = NULL;
+	MultipleSourceMovesListCell *currentLol = NULL;
 
 	// Initializing pointers to nodes
 	currentLol = Lol->head;
@@ -83,7 +85,8 @@ void freeLoList(MultipleSingleSourceMovesList *Lol)
 }
 MultipleSourceMovesListCell *createLolNode(SingleSourceMovesList *singleSourceMovesList, MultipleSourceMovesListCell *next) // Creates a node of List of lists
 {
-	MultipleSourceMovesListCell *node = (MultipleSourceMovesListCell *)malloc(sizeof(MultipleSourceMovesListCell)); // Allocate the cell
+	MultipleSourceMovesListCell *node;
+	node = (MultipleSourceMovesListCell *)malloc(sizeof(MultipleSourceMovesListCell)); // Allocate the cell
 	checkAllocation(node);
 	node->Single_Source_moves_list = singleSourceMovesList; // Updating the list received to be the cell in the multiple Source List cell
 	// Updating pointer to the next cell
@@ -108,56 +111,11 @@ BOOL isEmptyLoList(MultipleSingleSourceMovesList *Lol) // Determines whether the
 {
 	return (Lol->head == NULL);
 }
-MultipleSingleSourceMovesList * makeEmpty_LoList() // Makes empty list
+MultipleSingleSourceMovesList *makeEmpty_LoList() // Makes empty list
 {
-	MultipleSingleSourceMovesList *Lol = (MultipleSingleSourceMovesList *)malloc(sizeof(MultipleSingleSourceMovesList));
+	MultipleSingleSourceMovesList *Lol;
+	Lol = (MultipleSingleSourceMovesList *)malloc(sizeof(MultipleSingleSourceMovesList));
 	checkAllocation(Lol);
 	Lol->head = Lol->tail = NULL; // Initializing pointers to head and tail to NULL
 	return Lol;
 }
-
-/*
-void fillStartingBoard(Board *board)
-{
-	int i = 0, j = 0;
-
-	// Filling top -A TO C
-	for (i = 0; i < 3; i++)
-	{
-		for (j = 0; j < 8; j++)
-		{
-			if (((i % 2 == 0) && (j % 2 == 1)) || ((i % 2 == 1) && (j % 2 == 0)))
-				(*board)[i][j] = 'T'; // Top player
-			else
-				(*board)[i][j] = ' ';
-		}
-	}
-	// Filling middle- 2 empty rows - D , E
-	for (i = 3; i < 5; i++)
-		for (j = 0; j < 8; j++)
-			(*board)[i][j] = ' ';
-	// Filling bottom - F TO H
-	for (i = 5; i < 8; i++)
-	{
-		for (j = 0; j < 8; j++)
-		{
-			if (((i % 2 == 0) && (j % 2 == 1)) || ((i % 2 == 1) && (j % 2 == 0)))
-				(*board)[i][j] = 'B'; // Bottom player
-			else
-				(*board)[i][j] = ' ';
-		}
-	}
-}
-void PrintOpener()
-{
-	printf(":'$$$$$$::'$$::::'$$:'$$$$$$$$::'$$$$$$::'$$:::'$$:'$$$$$$$$:'$$$$$$$$:::'$$$$$$::\n");
-	printf("'$$... $$: $$:::: $$: $$.....::'$$... $$: $$::'$$:: $$.....:: $$.... $$:'$$... $$:\n");
-	printf("$$:::..:: $$:::: $$: $$::::::: $$:::..:: $$:'$$::: $$::::::: $$:::: $$: $$:::..::\n");
-	printf("$$::::::: $$$$$$$$$: $$$$$$::: $$::::::: $$$$$:::: $$$$$$::: $$$$$$$$::. $$$$$$::\n");
-	printf("$$::::::: $$.... $$: $$...:::: $$::::::: $$. $$::: $$...:::: $$.. $$::::..... $$:\n");
-	printf("$$::: $$: $$:::: $$: $$::::::: $$::: $$: $$:. $$:: $$::::::: $$::. $$::'$$::: $$:\n");
-	printf(".$$$$$$:: $$:::: $$: $$$$$$$$:. $$$$$$:: $$::. $$: $$$$$$$$: $$:::. $$:. $$$$$$::\n");
-	printf(":......:::..:::::..::........:::......:::..::::..::........::..:::::..:::......:::\n");
-	printf("\n\n\n");
-}
-*/

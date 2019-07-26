@@ -1,11 +1,10 @@
 #include "PrototypesProject.h"
-			
 
 int main()
 {
 	// Opener- Checkers game
-	PrintOpener();
 	// Fill board
+	srand(time(NULL));
 	Board startingBoard = {
 		{' ', 'T', ' ', 'T', ' ', 'T', ' ', 'T'},
 		{'T', ' ', 'T', ' ', 'T', ' ', 'T', ' '},
@@ -17,12 +16,11 @@ int main()
 		{'B', ' ', 'B', ' ', 'B', ' ', 'B', ' '},
 	};
 
-	printf("Starting Board\n");
-	printBoard(startingBoard);
-	printf("\n\n\n");
+	Menu(startingBoard);
+	/* 
 
 	// for end cases 1
-	/*Board testBoard = {
+	Board testBoard = {
 		{' ', 'B', ' ', 'T', ' ', ' ', ' ', ' '},
 		{' ', ' ', 'T', ' ', ' ', ' ', 'T', ' '},
 		{' ', 'T', ' ', 'T', ' ', 'T', ' ', ' '},
@@ -31,7 +29,7 @@ int main()
 		{' ', ' ', 'B', ' ', 'T', ' ', ' ', ' '},
 		{' ', 'B', ' ', ' ', ' ', ' ', ' ', 'B'},
 		{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-	};*/
+	};
 
 	// for end cases 2
 		Board testBoard = {
@@ -43,7 +41,8 @@ int main()
 		{' ', ' ', 'T', ' ', 'T', ' ', 'T', ' '},
 		{' ', 'B', ' ', ' ', ' ', ' ', ' ', 'B'},
 		{' ', ' ', ' ', ' ', ' ', ' ', 'B', ' '},
-	};
+	};*/
+	/* 
 	printBoard(testBoard);
 	printf("\n\n\n");
 
@@ -84,8 +83,8 @@ int main()
 	LoadBoard("save1.bin", testBoard);
 	printBoard(testBoard); // Debugging
 	printLoList(mulLst); // Debugging
-
-	// Debugging ********************************************  Debugging// 
+	// Debugging ********************************************  Debugging//
+	
 	PlayGame(testBoard, 'T');
 	PlayGame(startingBoard, 'B');
 	printBoard(startingBoard);
@@ -95,4 +94,5 @@ int main()
 	freeList(lst1);
 	freeList(lst2);
 	freeLoList(mulLst);
+	*/
 }

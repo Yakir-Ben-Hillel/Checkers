@@ -7,15 +7,14 @@ static void printColumnOfLetters(char Letter); // Sending The letter of the row
 
 
 void PrintOpener()
-{
-	printf("\n\n:'$$$$$$::'$$::::'$$:'$$$$$$$$::'$$$$$$::'$$:::'$$:'$$$$$$$$:'$$$$$$$$:::'$$$$$$::\n");
-	printf("'$$... $$: $$:::: $$: $$.....::'$$... $$: $$::'$$:: $$.....:: $$.... $$:'$$... $$:\n");
-	printf("$$:::..:: $$:::: $$: $$::::::: $$:::..:: $$:'$$::: $$::::::: $$:::: $$: $$:::..::\n");
-	printf("$$::::::: $$$$$$$$$: $$$$$$::: $$::::::: $$$$$:::: $$$$$$::: $$$$$$$$::. $$$$$$::\n");
-	printf("$$::::::: $$.... $$: $$...:::: $$::::::: $$. $$::: $$...:::: $$.. $$::::..... $$:\n");
-	printf("$$::: $$: $$:::: $$: $$::::::: $$::: $$: $$:. $$:: $$::::::: $$::. $$::'$$::: $$:\n");
-	printf(".$$$$$$:: $$:::: $$: $$$$$$$$:. $$$$$$:: $$::. $$: $$$$$$$$: $$:::. $$:. $$$$$$::\n");
-	printf(":......:::..:::::..::........:::......:::..::::..::........::..:::::..:::......:::\n\n\n\n");
+{   printf("**************************************************************************************\n");
+	printf("** $$$$$$   $$     $$  $$$$$$$$   $$$$$$   $$  $$$   $$$$$$$$  $$$$$$$$    $$$$$$$  **\n");
+	printf("**$$        $$     $$  $$        $$        $$  $$    $$        $$     $$   $$       **\n");
+	printf("**$$        $$$$$$$$$  $$$$$$$$  $$        $$$$$     $$$$$$    $$$$$$$$    $$$$$$$  **\n");
+	printf("**$$        $$     $$  $$        $$        $$  $$    $$        $$   $$           $$ **\n");
+	printf("**$$        $$     $$  $$        $$        $$   $$   $$        $$    $$          $$ **\n");
+	printf("** $$$$$$   $$     $$  $$$$$$$$   $$$$$$   $$    $$  $$$$$$$$  $$     $$   $$$$$$$  **\n");
+	printf("************************************************************************************** \n\n\n\n");
 }
 void printBoard(Board board) // debugging purpose only
 {
@@ -160,4 +159,70 @@ void fillStartingBoard(Board *board)
 				(*board)[i][j] = ' ';
 		}
 	}
+}
+
+void Menu(Board board)
+{
+	PrintOpener();
+	PrintFile("MainMenu.txt");
+	BOOL flag = FALSE;
+	while (!flag)
+	{
+		int option;
+		printf("Please insert your choose: ");
+		scanf("%d", &option);
+		if (option == 1)
+		{
+			player pl;
+			printf("Please choose a starting player: ");
+			getchar();
+			pl = getchar();
+			if ((pl != 'T') && (pl != 'B'))
+			{
+				printf("This is not a valid player\n");
+				printf("if help is needed please write help\n");
+			}
+			else
+			{
+				PlayGame(board, pl);
+				flag = TRUE;
+			}
+		}
+		else if (option == 2)
+		{
+			PrintFile("help.txt");
+		}
+		else if (option == 3)
+		{
+			printf("The Game as been made by: \n");
+			printf("Maayan Hadar and David Yakir Ben Hillel.\n");
+		}
+		else if (option == 4)
+		{
+			printBoard(board);
+		}
+		else if (option == 5)
+		{
+			printf("\n\nHave a great day :)n\n");
+			exit(0);
+		}
+		else
+		{
+			printf("This is not a valid option\n");
+			printf("The options are: start,help,copyrights\n");
+		}
+	}
+}
+void PrintFile(char *fname)
+{
+	FILE *fp;
+	fp = fopen(fname, "r");
+	checkFileOperation(fp);
+	while (!feof(fp))
+	{
+		char c = fgetc(fp);
+		printf("%c", c);
+		
+	}
+	fclose(fp);
 }
