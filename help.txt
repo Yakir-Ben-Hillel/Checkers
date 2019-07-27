@@ -1,0 +1,38 @@
+
+options list:
+1) start a game
+2) help
+3)print the game board 
+4) copyrights
+5) exit
+insert the number of your wanted option to accesses it.
+-------------------------------------------------------
+
+This is the conclusion project in Advanced Programming in C language in the Academic Collage of Tel Aviv-Yaffa.
+
+The Purpose of the Project is a simple draughts game.
+In the Droughts Board there is 8 Rows and 8 Columns.
+The place of the checker is defined by two letters, a letter for the row (A to H).
+And a letter for the column(1 to 8).
+
+Rules of the game:
+In the game there is two players called T and B.
+The game operates only on the grey checkers when T is moving from top to bottom.
+and B is moving from bottom to the top.
+
+Each player has 12 soldiers at the beginning of the game.
+Each Player advances at his own turn.
+a soldier can move to one of the two checkers that are next to him on his left, or his right, whereas it's available.
+In case the checker is not available and contains an enemy soldier, but the checker afterwards is available,
+the player can hop over the enemy soldier and by that taking out that specific enemy soldier out of the game.
+That move called a capture.
+In case another capture is available after capturing, the player can keep hoping over and in that way keep capturing more enemy soldiers.
+
+The machine is playing against himself.
+
+The game finishes when one of the scenarios happens.
+1) One of the Players has no more soldiers.
+2) When one of T soldiers reaches line H.
+3) When one of B soldiers reaches line A.
+
+

@@ -1,0 +1,8 @@
+
+Main Menu:
+1. Start a game
+2. Help
+3. Copyrights
+4. Print Staring Board
+5. Exit
+
