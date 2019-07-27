@@ -1,10 +1,10 @@
 #include "PrototypesProject.h"
 static void updateTableNoCapture(Board board, checkersPos *src, checkersPos *options, player pl, int direction);
-static void captureFromoptionZero(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned short *countCaptures);
-static void captureFromoptionOne(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned short *countCaptures);
+static void captureFromoptionZero(Board board, checkersPos *src, player pl, checkersPos *options, checkersPos *captures, unsigned short *countCaptures);
+static void captureFromoptionOne(Board board, checkersPos *src, player pl, checkersPos *options, checkersPos *captures, unsigned short *countCaptures);
 // Update the board based on possible near moves and captions
-																					// capture between the given captures, if exist
-																					// Return true in case there's a match between a capture and a move
+// capture between the given captures, if exist
+// Return true in case there's a match between a capture and a move
 
 void handleBoardChange(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned short *countCaptures)
 {
@@ -14,11 +14,11 @@ void handleBoardChange(Board board, checkersPos *src, player pl, int direction, 
 	{
 		if ((direction == 0) && (Ind == 0))
 		{
-			captureFromoptionZero(board, src, pl, direction, options, captures, countCaptures);
+			captureFromoptionZero(board, src, pl, options, captures, countCaptures);
 		}
 		else if ((direction == 1) && (Ind == 1))
 		{
-			captureFromoptionOne(board, src, pl, direction, options, captures, countCaptures);
+			captureFromoptionOne(board, src, pl, options, captures, countCaptures);
 		}
 		else
 		{
@@ -50,7 +50,7 @@ BOOL isThereACapture(checkersPos *captures, int *ind)
 	return FALSE;
 }
 
-static void captureFromoptionZero(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned short *countCaptures)
+static void captureFromoptionZero(Board board, checkersPos *src, player pl, checkersPos *options, checkersPos *captures, unsigned short *countCaptures)
 { //Checks  if there is a capture in option[0].
 	if (((abs((options[0].row) - (captures[0].row))) == 1) && ((abs((options[0].col) - (captures[0].col))) == 1))
 	{
@@ -68,7 +68,7 @@ static void captureFromoptionZero(Board board, checkersPos *src, player pl, int 
 		(*countCaptures)++;
 	}
 }
-static void captureFromoptionOne(Board board, checkersPos *src, player pl, int direction, checkersPos *options, checkersPos *captures, unsigned short *countCaptures)
+static void captureFromoptionOne(Board board, checkersPos *src, player pl, checkersPos *options, checkersPos *captures, unsigned short *countCaptures)
 { //Checks if there is a capture in option[1].
 	if (((abs((options[1].row) - (captures[0].row))) == 1) && ((abs((options[1].col) - (captures[0].col))) == 1))
 	{
@@ -100,7 +100,7 @@ static void updateTableNoCapture(Board board, checkersPos *src, checkersPos *opt
 		if ((options[1].col != 0) && (options[1].row != 0))
 		{
 			if (board[options[0].row - 'A'][options[0].col - '0' - 1] == pl)
-			{   //This option becomes available only after the recursion
+			{ //This option becomes available only after the recursion
 				// as already entered and returned from option zero.
 				// a player as been added to the place in option zero,
 				// and in order to go into the option one without the player who as been added

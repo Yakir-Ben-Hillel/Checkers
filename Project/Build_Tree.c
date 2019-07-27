@@ -1,11 +1,12 @@
 #include "PrototypesProject.h"
 // function1 Prototypes
 // return in the options array the nearest possible coordinates for moving and in accordance the place of an eaten soldier if exists
-static SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos *src, player pl, unsigned short captureAmount, BOOL has_moved, BOOL has_eaten); // Auxiliary function for building the tree moves
+static SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos *src,
+													  player pl, unsigned short captureAmount, BOOL has_moved, BOOL has_eaten); // Auxiliary function for building the tree moves.
 static void handleTreeOne(SingleSourceMovesTree *baseTree, SingleSourceMovesTree *treeOne, Board board, player pl, checkersPos *src,
-	checkersPos *options, checkersPos *captures, unsigned short countCaptures, BOOL has_moved, BOOL has_eaten); //Makes tree one.
+						  checkersPos *options, checkersPos *captures, unsigned short countCaptures, BOOL has_moved, BOOL has_eaten); //Makes tree one.
 static void handleTreeTwo(SingleSourceMovesTree *baseTree, SingleSourceMovesTree *treeTwo, Board board, player pl, checkersPos *src,
-	checkersPos *options, checkersPos *captures, unsigned short countCaptures, BOOL has_moved, BOOL has_eaten); //Makes tree two.
+						  checkersPos *options, checkersPos *captures, unsigned short countCaptures, BOOL has_moved, BOOL has_eaten); //Makes tree two.
 
 //Make a leaf in the tree.
 
@@ -25,7 +26,7 @@ SingleSourceMovesTree *FindSingleSourceMoves(Board board, checkersPos *src)
 static SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos *src, player pl, unsigned short captureAmount, BOOL has_moved, BOOL has_eaten)
 {
 	// Initialized due to security reasons
-	SingleSourceMovesTree treeOne = { NULL }, treeTwo = { NULL }, baseTree = { NULL };
+	SingleSourceMovesTree treeOne = {NULL}, treeTwo = {NULL}, baseTree = {NULL};
 	checkersPos *options = NULL, *captures = NULL;
 	// Allocating a tree node
 	allocateTreeNode(&baseTree, src); // Updates position
@@ -51,7 +52,7 @@ static SingleSourceMovesTree FindSingleSourceMovesAux(Board board, checkersPos *
 }
 
 static void handleTreeOne(SingleSourceMovesTree *baseTree, SingleSourceMovesTree *treeOne, Board board, player pl, checkersPos *src,
-	checkersPos *options, checkersPos *captures, unsigned short countCaptures, BOOL has_moved, BOOL has_eaten)
+						  checkersPos *options, checkersPos *captures, unsigned short countCaptures, BOOL has_moved, BOOL has_eaten)
 {
 	// handle sub tree one
 	if (has_moved) //The player has moved in the previous step.
@@ -97,7 +98,7 @@ static void handleTreeOne(SingleSourceMovesTree *baseTree, SingleSourceMovesTree
 }
 
 static void handleTreeTwo(SingleSourceMovesTree *baseTree, SingleSourceMovesTree *treeTwo, Board board, player pl, checkersPos *src,
-	checkersPos *options, checkersPos *captures, unsigned short countCaptures, BOOL has_moved, BOOL has_eaten)
+						  checkersPos *options, checkersPos *captures, unsigned short countCaptures, BOOL has_moved, BOOL has_eaten)
 {
 	// handle sub tree two
 	if (has_moved) //Moved before.

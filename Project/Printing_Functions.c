@@ -1,13 +1,15 @@
 #include "PrototypesProject.h"
 #define NUM_OF_CHAR_BORDER 9 // Number of couples of '+-' for constructing the border
-
-static void printBorderRow(); // Prints the border of a row after each row 
-static void printLineOfColumns(); // Prints the row of numbers indicates the number of a column
+#define EXIT_BY_WILL 500
+static void printBorderRow();				   // Prints the border of a row after each row
+static void printLineOfColumns();			   // Prints the row of numbers indicates the number of a column
 static void printColumnOfLetters(char Letter); // Sending The letter of the row
-
+static BOOL startGame(Board board);
+static void Copyrights();
 
 void PrintOpener()
-{   printf("**************************************************************************************\n");
+{
+	printf("**************************************************************************************\n");
 	printf("** $$$$$$   $$     $$  $$$$$$$$   $$$$$$   $$  $$$   $$$$$$$$  $$$$$$$$    $$$$$$$  **\n");
 	printf("**$$        $$     $$  $$        $$        $$  $$    $$        $$     $$   $$       **\n");
 	printf("**$$        $$$$$$$$$  $$$$$$$$  $$        $$$$$     $$$$$$    $$$$$$$$    $$$$$$$  **\n");
@@ -19,8 +21,8 @@ void PrintOpener()
 void printBoard(Board board) // debugging purpose only
 {
 	printf("\n\n");
-	int i=0, j=0;
-	
+	int i = 0, j = 0;
+
 	for (i = 0; i < 8; i++)
 	{
 		printBorderRow(); // Prints the border between the rows of the table
@@ -32,7 +34,7 @@ void printBoard(Board board) // debugging purpose only
 		for (j = 0; j < 8; j++)
 		{
 			if (j == 0)
-				printColumnOfLetters( (char) ('A' + i) ); // Sending The letter of the row
+				printColumnOfLetters((char)('A' + i)); // Sending The letter of the row
 			printf("|%c", board[i][j]);
 		}
 		printf("|\n");
@@ -46,87 +48,24 @@ static void printColumnOfLetters(char Letter)
 }
 static void printLineOfColumns()
 {
-	int i = 0; 
-	
+	int i = 0;
+
 	for (i = 0; i < NUM_OF_CHAR_BORDER; i++)
 	{
-		if (i == 0 )
+		if (i == 0)
 			printf("+ ");
 		else
 			printf("|%d", i); // Printing the number of column
 	}
 	printf("|\n");
 }
-static void printBorderRow() // Prints the border of a row after each row 
+static void printBorderRow() // Prints the border of a row after each row
 {
 	int i = 0;
 
 	for (i = 0; i < NUM_OF_CHAR_BORDER; i++)
 		printf("+-");
 	printf("+\n"); // Printing the end of the border and its last character
-}
-
-void printTreeInOrder(SingleSourceMovesTree *movesTree)
-{
-	if (movesTree == NULL)
-		return;
-	else
-	{
-		printTreeBoardInOrderAux(movesTree->source);
-		printf("\nThe original Board:");
-		printBoard(movesTree->source->board);
-		printf("The tree Sources are:\n");
-		printTreeSourcesInOrderAux(movesTree->source);
-		printf("\n");
-	}
-}
-void printTreeBoardInOrderAux(SingleSourceMovesTreeNode *source)
-{
-	if (source == NULL)
-		return;
-	else
-	{
-		printTreeBoardInOrderAux(source->next_move[0]);
-		printBoard(source->board);
-		printTreeBoardInOrderAux(source->next_move[1]);
-	}
-}
-void printTreeSourcesInOrderAux(SingleSourceMovesTreeNode *source)
-{
-	if (source == NULL)
-		return;
-	else
-	{
-		printTreeSourcesInOrderAux(source->next_move[0]);
-		printf("Amount of Captures in this position is:%hu %c%c\n ", source->total_captures_so_far, source->pos->row, source->pos->col);
-		printTreeSourcesInOrderAux(source->next_move[1]);
-	}
-}
-void printList(SingleSourceMovesList *lst)
-{
-	if (lst != NULL)
-	{
-		SingleSourceMovesListCell *current = lst->head;
-		printf("Printing the best Moves List.\n");
-		while (current != NULL)
-		{
-			printf("Amount of Captures in this position is:%hu %c%c\n ", current->captures, current->position->row, current->position->col); // Printing the coordinates of the current position
-			current = current->next;                                                                                                         // Updating the "pointer" to cell in the list
-		}
-		printf("\n\n");
-	}
-}
-
-void printLoList(MultipleSingleSourceMovesList *Lol) // Prints the list of single source move
-{
-	MultipleSourceMovesListCell *currentListP = Lol->head;
-
-	while (currentListP != NULL)
-	{
-		printList(currentListP->Single_Source_moves_list);
-		printf("\n");
-		currentListP = currentListP->next;
-	}
 }
 
 void fillStartingBoard(Board *board)
@@ -160,56 +99,42 @@ void fillStartingBoard(Board *board)
 		}
 	}
 }
-
 void Menu(Board board)
 {
 	PrintOpener();
 	PrintFile("MainMenu.txt");
-	BOOL flag = FALSE;
-	while (!flag)
+	BOOL isPlaying = FALSE;
+	while (!isPlaying)
 	{
-		int option;
-		printf("Please insert your choose: ");
-		scanf("%d", &option);
-		if (option == 1)
+		char option = 'A';
+		printf("Please insert the number of your wanted option: ");
+		while (option < '0' || option > '9')
+			option = getchar();
+		switch (option)
 		{
-			player pl;
-			printf("Please choose a starting player: ");
-			getchar();
-			pl = getchar();
-			if ((pl != 'T') && (pl != 'B'))
-			{
-				printf("This is not a valid player\n");
-				printf("if help is needed please write help\n");
-			}
-			else
-			{
-				PlayGame(board, pl);
-				flag = TRUE;
-			}
-		}
-		else if (option == 2)
-		{
+		case '1':
+			isPlaying = startGame(board);
+			break;
+		case '2':
 			PrintFile("help.txt");
-		}
-		else if (option == 3)
-		{
-			printf("The Game as been made by: \n");
-			printf("Maayan Hadar and David Yakir Ben Hillel.\n");
-		}
-		else if (option == 4)
-		{
+			break;
+		case '3':
+			Copyrights();
+			break;
+		case '4':
 			printBoard(board);
-		}
-		else if (option == 5)
+			break;
+		case '5':
 		{
-			printf("\n\nHave a great day :)n\n");
-			exit(0);
+			printf("\n\nHave a great day :)\n");
+			exit(EXIT_BY_WILL);
 		}
-		else
+		default:
 		{
 			printf("This is not a valid option\n");
-			printf("The options are: start,help,copyrights\n");
+			printf("choose help for instructions\n");
+		}
+		break;
 		}
 	}
 }
@@ -221,8 +146,42 @@ void PrintFile(char *fname)
 	while (!feof(fp))
 	{
 		char c = fgetc(fp);
-		printf("%c", c);
-		
+		if (c != EOF)//Avoid printing EOF.
+			printf("%c", c);
 	}
 	fclose(fp);
+}
+void DeclareWinner(player player)
+{
+	if (player == 'B')//The player who is now his turn, but he just lost.
+	{
+		printf("The Winner is T!\n");
+	}
+	else
+	{
+		printf("The Winner is B!\n");
+	}
+}
+static BOOL startGame(Board board)
+{
+	player pl;
+	printf("Please choose a starting player: ");
+	getchar(); //Avoid autofill with '\n'.
+	pl = getchar();
+	if ((pl != 'T') && (pl != 'B'))
+	{
+		printf("This is not a valid player\n");
+		printf("if help is needed please write help\n");
+		return FALSE;
+	}
+	else
+	{
+		PlayGame(board, pl);
+		return TRUE;
+	}
+}
+static void Copyrights()
+{
+	printf("The Game as been made by: \n");
+	printf("Maayan Hadar and David Yakir Ben Hillel.\n");
 }

@@ -88,9 +88,7 @@ void PrintOpener();
 void fillStartingBoard(Board *board);
 void printTreeInOrder(SingleSourceMovesTree *movesTree);
 void printBoard(Board board);
-void printTreeBoardInOrderAux(SingleSourceMovesTreeNode *source);
-void printTreeInOrderAux(SingleSourceMovesTreeNode *source);
-void printTreeSourcesInOrderAux(SingleSourceMovesTreeNode *source);
+void DeclareWinner(player player);//Declare who won the game.
 void PrintFile(char *fname);
 
 
@@ -117,7 +115,6 @@ void insertNodeToTail(SingleSourceMovesList *lst, SingleSourceMovesListCell *new
 void insertListToHead(SingleSourceMovesList **lst, SingleSourceMovesList*newHead);		// Adding an element to the start of the list
 BOOL isEmptyList(SingleSourceMovesList *lst);                                            // Determines whether the list is empty or not
 SingleSourceMovesList* makeEmpty_List();												// Makes empty list
-void printList(SingleSourceMovesList *lst);                                            // Prints the list of single source move
 //List Implementations.
 
 // Function 2
@@ -132,7 +129,6 @@ void insertLolNodeToTail(MultipleSingleSourceMovesList *Lol, MultipleSourceMoves
 //void insertLolNodeToHead(MultipleSingleSourceMovesList* Lol , MultipleSourceMovesListCell *newHead); // Adding the list to the start of the list of lists
 BOOL isEmptyLoList(MultipleSingleSourceMovesList *Lol);   // Determines whether the list is empty or not
 MultipleSingleSourceMovesList * makeEmpty_LoList(); // Makes empty list - allocates a node
-void printLoList(MultipleSingleSourceMovesList *Lol);     // Prints the list of single source move
 /*Declartions*/
 
 // Function 4 

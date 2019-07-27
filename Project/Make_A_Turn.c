@@ -6,11 +6,11 @@
 static unsigned short findPlaceofBestTurn(MultipleSingleSourceMovesList *mul_list, BOOL *hasCaptured);
 // Initializing the pointer to the best move list by the place found in the list of moves lists
 static unsigned short FindMaxCaptures(MultipleSingleSourceMovesList *mul_list);
-static void ManagePlaceArr(int **Place_Arr,int *physical_size, int *logical_size);
+static void ManagePlaceArr(int **Place_Arr, int *physical_size, int *logical_size);
 static void getBestListByPlace(unsigned short bestPlaceInList, MultipleSingleSourceMovesList *mul_list, SingleSourceMovesList **chosenMoveList);
 static void handlePlayersRemoval(Board board, SingleSourceMovesList *chosenMoveList, BOOL hasCaptured, player player); // Handle process of updating the board
 static void movePlayer(Board board, player player, checkersPos *lastPos, checkersPos *currentPos);					   // Moves the player to the next position
-static void removeEnemy(Board board, player player, checkersPos *lastPos, checkersPos *currentPos);					   // Removes enemy players that has been captured
+static void removeEnemy(Board board, checkersPos *lastPos, checkersPos *currentPos);								   // Removes enemy players that has been captured
 static BOOL checkEdges(Board board);																				   // Checks whether one of the players has reached the other side of the board (the last row / first row of the enemy)
 static BOOL NoPlayers(Board board);																					   // Checks whether one of the players has no more players on board
 
@@ -86,7 +86,7 @@ static void handlePlayersRemoval(Board board, SingleSourceMovesList *chosenMoveL
 			diffCol = abs((int)lastPos->col - (int)current->position->col);
 			diffRow = abs((int)lastPos->row - (int)current->position->row);
 			if (diffCol > 1 && diffRow > 1)
-				removeEnemy(board, player, lastPos, current->position);
+				removeEnemy(board, lastPos, current->position);
 		}
 	}
 }
@@ -100,7 +100,7 @@ static void movePlayer(Board board, player player, checkersPos *lastPos, checker
 	col = currentPos->col - '0' - 1;
 	board[row][col] = player; // Moving the player to the current position
 }
-static void removeEnemy(Board board, player player, checkersPos *lastPos, checkersPos *currentPos)
+static void removeEnemy(Board board, checkersPos *lastPos, checkersPos *currentPos)
 {
 	checkersPos capture;
 	capture.row = ((lastPos->row) + (currentPos->row)) / 2; //Captured row position.
@@ -144,7 +144,7 @@ static unsigned short findPlaceofBestTurn(MultipleSingleSourceMovesList *mul_lis
 		if (currect_captures == max && nextPosition)
 		{
 			ManagePlaceArr(&placeArrMax, &place_Arr_Physical_Size, &place_Arr_Logical_Size);
-			placeArrMax[place_Arr_Logical_Size]=counter;
+			placeArrMax[place_Arr_Logical_Size] = counter;
 			place_Arr_Logical_Size++;
 		}
 		ptr = ptr->next;

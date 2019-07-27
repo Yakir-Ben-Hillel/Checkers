@@ -5,8 +5,6 @@
 // The function prints the given board (in the format that we've been asked to)
 // Each turn the function will print the name of the player
 // Prints the player who's playing
-static void DeclareWinner(player player);
-//The Function Declares who is the Winner.
 static player InitializeAndPrintPlayer(player player);
 // Locates the player that has been moved and updates the last position and the current position of the player that made the last move
 // Indicates whether the game is over - updates the flag notices if the game is over
@@ -29,13 +27,10 @@ void PlayGame(Board board, player starting_player)
 	BOOL isDone = FALSE;
 	checkersPos lastPos = {0}, currPos = {0};
 	player player = starting_player, nextPlayer; // Initializing the player variable to be the starting player, a variable
-
+	srand(time(NULL));//Seed for rand().
 	for (i = 0; i < 8; i++)
 		memcpy(&tempBoard[i], &board[i], sizeof(board[i])); // Filling a temp board for comparison
-	// Debugging purposes******************************************//
-	printBoard(tempBoard);
 	printf("Let the game begin!\n");
-	// Debugging purposes****************************************//
 
 	// Printing the given board
 	printf("Starting Board:\n");
@@ -43,18 +38,18 @@ void PlayGame(Board board, player starting_player)
 
 	while (!isDone)
 	{
-		nextPlayer = InitializeAndPrintPlayer(player);
 		Turn(board, player);													  // Making a turn of a player
 		findChangeInBoard(tempBoard, board, &isDone, &lastPos, &currPos, player); // Updates board, initializing temp board and positions, and initializing flag in case game is over
 		if (!isDone)
 		{
+			nextPlayer = InitializeAndPrintPlayer(player);
 			printf("%c%d->%c%d\n", lastPos.row, lastPos.col, currPos.row, currPos.col);
 			printBoard(tempBoard);
 			player = nextPlayer; // Initializing the player variable to be the next player
 		}
 		else
 		{
-			DeclareWinner(nextPlayer);
+			DeclareWinner(player);
 		}
 	}
 }
@@ -153,15 +148,4 @@ static player InitializeAndPrintPlayer(player player)
 		return ('T'); // Returning the next player
 	}
 	printf("\n");
-}
-static void DeclareWinner(player player)
-{
-	if (player == 'B')
-	{
-		printf("The Winner is B!\n");
-	}
-	else
-	{
-		printf("The Winner is T!\n");
-	}
 }

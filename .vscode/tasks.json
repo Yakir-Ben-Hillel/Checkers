@@ -9,7 +9,7 @@
             "command": "gcc",
             "args": [
                 "-Wall",
-                "-Werror",
+                "-Wextra",
                 "-g",
                 "${fileDirname}//*.c",
                 "-o",

@@ -1,10 +1,12 @@
 
 options list:
-1) start
+1) start a game
 2) help
-3)printBoard 
+3)print the game board 
 4) copyrights
------------------------------------------------------
+5) exit
+insert the number of your wanted option to accesses it.
+-------------------------------------------------------
 
 This is the conclusion project in Advanced Programming in C language in the Academic Collage of Tel Aviv-Yaffa.
 
@@ -24,9 +26,9 @@ a soldier can move to one of the two checkers that are next to him on his left, 
 In case the checker is not available and contains an enemy soldier, but the checker afterwards is available,
 the player can hop over the enemy soldier and by that taking out that specific enemy soldier out of the game.
 That move called a capture.
-In case a capture is available after making a one the player can keep hoping over and in that way keep capturing more enemy soldiers.
+In case another capture is available after capturing, the player can keep hoping over and in that way keep capturing more enemy soldiers.
 
-The computer is playing against himself.
+The machine is playing against himself.
 
 The game finishes when one of the scenarios happens.
 1) One of the Players has no more soldiers.
