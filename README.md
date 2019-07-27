@@ -1,6 +1,6 @@
-# Assignments
+# Checkers Project.
 get your own copy of the project by using
-git clone https://github.com/yakir985/Assignments.git
+git clone https://github.com/yakir985/Checkers.git
 inside your terminal.
 (git is required to be install on your machine in order to execute the command.)
 
