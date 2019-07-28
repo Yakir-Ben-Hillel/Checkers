@@ -13,7 +13,7 @@
                 "-g",
                 "${fileDirname}//*.c",
                 "-o",
-                "~/Documents/GitHub/Assignments/Projectmain"
+                "~/Documents/GitHub/Checkers/Projectmain"
             ],
             "options": {
                 "cwd": "/usr/bin"

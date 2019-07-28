@@ -8,7 +8,7 @@
             "name": "gcc build and debug active file",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/home/yakir/Documents/GitHub/Assignments/Projectmain",
+            "program": "/home/yakir/Documents/GitHub/Checkers/Projectmain",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

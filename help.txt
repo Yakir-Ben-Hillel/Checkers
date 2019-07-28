@@ -4,7 +4,8 @@ options list:
 2) help
 3)print the game board 
 4) copyrights
-5) exit
+5) View Tests on an example board.
+6) exit
 insert the number of your wanted option to accesses it.
 -------------------------------------------------------
 
@@ -35,4 +36,5 @@ The game finishes when one of the scenarios happens.
 2) When one of T soldiers reaches line H.
 3) When one of B soldiers reaches line A.
 
-
+In order to  view tests of building a tree, list and list of lists on an example board, please select
+5 in the main menu.

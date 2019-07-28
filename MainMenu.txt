@@ -4,5 +4,6 @@ Main Menu:
 2. Help
 3. Copyrights
 4. Print Staring Board
-5. Exit
+5. View Tests on an example board
+6. Exit
 
