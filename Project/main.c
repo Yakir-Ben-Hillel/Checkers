@@ -15,4 +15,5 @@ int main()
 	};
 
 	Menu(startingBoard);
+	return 0;
 }

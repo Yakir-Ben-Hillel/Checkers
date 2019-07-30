@@ -164,10 +164,10 @@ void DeclareWinner(player player)
 static BOOL startGame(Board board)
 {
 	player pl;
-	printf("Please choose a starting player: ");
+	printf("Please choose a starting player (insert R for a random pick): ");
 	getchar(); //Avoid autofill with '\n'.
 	pl = getchar();
-	if ((pl != 'T') && (pl != 'B'))
+	if ((pl != 'T') && (pl != 'B') && (pl != 'R') && (pl != 't') && (pl != 'b') && (pl != 'r'))
 	{
 		printf("This is not a valid player\n");
 		printf("if help is needed please write help\n");

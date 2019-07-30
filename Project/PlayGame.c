@@ -18,16 +18,21 @@ static void updateIndexes(int *startingInnerInd, int *startingOuterInd, int *Las
 // Promotes the index by initializing the variable that replace the promotion process
 //  of the indexes in each iteration - this by the given player (direction of scanning the board)
 static void promoteInd(player player, int *promoteInd, int index);
-
+static char PickRandomStarter();					  //Picks a random starter when R is inserted.
+static player CheckLowerCase(player starting_player); //Checks if the user inserted a lower case input.
 //Prints a given text File.
 void PlayGame(Board board, player starting_player)
 {
 	Board tempBoard;
 	int i = 0;
+	srand(time(NULL)); //Seed for rand().
 	BOOL isDone = FALSE;
+	player firstPlayer = starting_player;
+	firstPlayer = CheckLowerCase(starting_player); //checks if the user inserted a lower case.
 	checkersPos lastPos = {0}, currPos = {0};
-	player player = starting_player, nextPlayer; // Initializing the player variable to be the starting player, a variable
-	srand(time(NULL));//Seed for rand().
+	if (firstPlayer == 'R') //Picks a random player.
+		firstPlayer = PickRandomStarter();
+	player nextPlayer; // Initializing the player variable to be the starting player, a variable
 	for (i = 0; i < 8; i++)
 		memcpy(&tempBoard[i], &board[i], sizeof(board[i])); // Filling a temp board for comparison
 	printf("Let the game begin!\n");
@@ -38,18 +43,18 @@ void PlayGame(Board board, player starting_player)
 
 	while (!isDone)
 	{
-		Turn(board, player);													  // Making a turn of a player
-		findChangeInBoard(tempBoard, board, &isDone, &lastPos, &currPos, player); // Updates board, initializing temp board and positions, and initializing flag in case game is over
+		Turn(board, firstPlayer);													   // Making a turn of a player
+		findChangeInBoard(tempBoard, board, &isDone, &lastPos, &currPos, firstPlayer); // Updates board, initializing temp board and positions, and initializing flag in case game is over
 		if (!isDone)
 		{
-			nextPlayer = InitializeAndPrintPlayer(player);
+			nextPlayer = InitializeAndPrintPlayer(firstPlayer);
 			printf("%c%d->%c%d\n", lastPos.row, lastPos.col, currPos.row, currPos.col);
 			printBoard(tempBoard);
-			player = nextPlayer; // Initializing the player variable to be the next player
+			firstPlayer = nextPlayer; // Initializing the player variable to be the next player
 		}
 		else
 		{
-			DeclareWinner(player);
+			DeclareWinner(firstPlayer);
 		}
 	}
 }
@@ -148,4 +153,28 @@ static player InitializeAndPrintPlayer(player player)
 		return ('T'); // Returning the next player
 	}
 	printf("\n");
+}
+static char PickRandomStarter()
+{
+	if (rand() % 2)
+	{
+		printf("T is starting\n");
+		return 'T';
+	}
+	else
+	{
+		printf("B is starting\n");
+		return 'B';
+	}
+}
+static player CheckLowerCase(player starting_player)
+{
+	if (starting_player == 't')
+		return 'T';
+	else if (starting_player == 'b')
+		return 'B';
+	else if (starting_player == 'r')
+		return 'R';
+	else
+		return starting_player;
 }
